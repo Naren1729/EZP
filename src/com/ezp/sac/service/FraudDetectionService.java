@@ -59,11 +59,11 @@ public class FraudDetectionService {
 
         double riskScore = fraudDetectionSystem.getRiskScore();
         if (riskScore > 0.3) {
-            System.out.println("Transaction flagged as fraudulent: " + transaction);
+            System.out.println("Transaction flagged as fraudulent: " + transaction+" with a riskscore : "+riskScore);
         } else if (riskScore > 0) {
-            System.out.println("The entered username: " + transaction + " is incorrect.");
+            System.out.println("The entered username: " + transaction +" with a riskscore : "+ riskScore);
         } else {
-            System.out.println("Transaction is safe: " + transaction);
+            System.out.println("Transaction is safe: " + transaction+" with a riskscore : "+riskScore);
         }
     }
 
