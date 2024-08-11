@@ -23,6 +23,7 @@ public class FraudDetectionSystem {
       this.riskScore = riskScore;
 	}
 
+	
 	/**
 	 * Gets the risk score for the usernames.
 	 * @return the risk score
