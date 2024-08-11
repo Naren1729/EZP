@@ -1,17 +1,18 @@
 package com.ezp.sac.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
+import com.ezp.sac.service.*;
 
+import static org.junit.Assert.*;
+
+// importing packages for Annotations
 import org.junit.After;
-import org.junit.jupiter.api.Test;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
-import com.ezp.sac.service.*;
 
-class DataEncryptionServiceTest {
+public class DataEncryptionServiceTest {
 
 	static private DataEncryptionService de;
 

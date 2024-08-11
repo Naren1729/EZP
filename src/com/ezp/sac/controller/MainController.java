@@ -6,19 +6,20 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import com.ezp.sac.model.User;
-import com.ezp.sac.service.DataEncryptionService;
+import com.ezp.sac.service.EncryptionBOService;
+import com.ezp.sac.service.DecryptionBOService;
 import com.ezp.sac.service.FraudDetectionService;
 
-public class Controller {
+public class MainController {
 
     public static void main(String[] args) {
-        DataEncryptionService dataEncryptionService = new DataEncryptionService();
+        EncryptionBOService encryptionBOService = new EncryptionBOService();
+        DecryptionBOService decryptionBOService = new DecryptionBOService();
         FraudDetectionService fraudDetectionService = new FraudDetectionService();
-
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("All users list:");
-            List<User> allUsers = dataEncryptionService.getAllUsers();
+            List<User> allUsers = encryptionBOService.getAllUsers();
             for (User user : allUsers) {
                 System.out.println(user);
             }
@@ -39,7 +40,7 @@ public class Controller {
 
                 switch (choice) {
                     case "1":
-                        handleEncryption(dataEncryptionService, reader, fraudDetectionService);
+                        handleEncryption(encryptionBOService, decryptionBOService, reader, fraudDetectionService);
                         break;
 
                     default:
@@ -51,16 +52,18 @@ public class Controller {
         }
     }
 
-    private static void handleEncryption(DataEncryptionService dataEncryptionService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
+    private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
         System.out.print("\nEnter the username of the user you want to encrypt: ");
         String username = reader.readLine();
 
-        User encryptedUser = dataEncryptionService.encryptUserData(encryptionAlgorithm, username);
+        User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
         if (encryptedUser != null) {
             System.out.println("\nEncrypted User: " + encryptedUser);
-
-            User decryptedUser = dataEncryptionService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+//            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+            
+            
             if (decryptedUser != null) {
                 System.out.println("Decrypted User: " + decryptedUser);
             } else {
