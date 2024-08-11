@@ -35,6 +35,9 @@ public class UserBO {
             users.add(new User("aliceJones", "Alice Jones", "password789", 1003L, "deposit", 500.00, LocalDateTime.now(), "completed"));
             users.add(new User("bobBrown", "Bob Brown", "password012", 1004L, "transfer", 150.25, LocalDateTime.now(), "failed"));
             users.add(new User("carolWhite", "Carol White", "password345", 1005L, "deposit", 75.00, LocalDateTime.now(), "completed"));
+            users.add(new User("keerthanaB", "Keerthana B", "password123", 1001L, "deposit", 250.75, LocalDateTime.now(), "completed"));
+            users.add(new User("bhavanshG", "Bhavansh G", "password456", 1002L, "withdrawal", 100.50, LocalDateTime.now(), "pending"));
+            users.add(new User("alisonRose", "Alison Rose", "password789", 1003L, "deposit", 500.00, LocalDateTime.now(), "completed"));
             initialized = true; // Set flag to true after initialization
         }
     }

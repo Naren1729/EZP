@@ -60,9 +60,8 @@ public class MainController {
         User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
         if (encryptedUser != null) {
             System.out.println("\nEncrypted User: " + encryptedUser);
-//            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+
             User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
-            
             
             if (decryptedUser != null) {
                 System.out.println("Decrypted User: " + decryptedUser);
