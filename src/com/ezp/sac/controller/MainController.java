@@ -16,6 +16,7 @@ public class MainController {
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
         FraudDetectionService fraudDetectionService = new FraudDetectionService();
+        
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("All users list:");
