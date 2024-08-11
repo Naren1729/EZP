@@ -17,6 +17,7 @@ public class FraudDetectionSystem {
 	
 	/**
 	 * Sets the risk score for the usernames.
+	 * 
 	 * @param riskScore the risk score to be set
 	 */
 	public void setRiskScore(double riskScore) {
