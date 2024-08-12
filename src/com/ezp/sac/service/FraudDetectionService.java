@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FraudDetectionService {
 
-    private final FraudDetectionBO fakeDatabase = new FraudDetectionBO();
+
     private final FraudDetectionSystem fraudDetectionSystem = new FraudDetectionSystem();
     private final UserBO userBO;
 
