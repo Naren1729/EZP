@@ -56,17 +56,15 @@ public class FraudDetectionService {
      */
     public void flagTransaction(String transaction) {
         detectFraud(transaction);
-
         double riskScore = fraudDetectionSystem.getRiskScore();
         if (riskScore > 0.3) {
-            System.out.println("Transaction flagged as fraudulent: " + transaction+" with a riskscore : "+riskScore);
-        } else if (riskScore > 0) {
-            System.out.println("The entered username: " + transaction +" with a riskscore : "+ riskScore);
+            System.out.println("Transaction flagged as fraudulent: " + transaction + " with risk score: " + riskScore);
+        } else if (riskScore > 0 && riskScore <= 0.3) {
+            System.out.println("The entered username: " + transaction + " is incorrect");
         } else {
-            System.out.println("Transaction is safe: " + transaction+" with a riskscore : "+riskScore);
+            System.out.println("Transaction is safe to process with the username: " + transaction);
         }
     }
-
     /**
      * Calculates the similarity between two strings using a simple intersection-over-union method.
      * @param str1 The first string.
