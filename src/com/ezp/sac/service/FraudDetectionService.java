@@ -22,7 +22,7 @@ public class FraudDetectionService {
     public void setUsername(List<String> username) {
         fraudDetectionSystem.setUsername(username);
     }
-
+    //finding the maximum similarity it has with the username in the backend
     public void detectFraud(String transaction) {
         List<User> suspiciousActivities = userBO.getAllUsers();
         double highestSimilarity = 0;
@@ -37,7 +37,7 @@ public class FraudDetectionService {
 
         fraudDetectionSystem.setRiskScore(1 - highestSimilarity);
     }
-
+    //comparing the risk score and output for failed transaction
     public void flagTransaction(String transaction) {
         detectFraud(transaction);
 
@@ -50,7 +50,7 @@ public class FraudDetectionService {
             System.out.println("Transaction is safe: " + transaction + " with a risk score: " + riskScore);
         }
     }
-
+    //Jaccard similarity 
     private double calculateSimilarity(String str1, String str2) {
         int intersection = 0;
         int union = str1.length() + str2.length();
