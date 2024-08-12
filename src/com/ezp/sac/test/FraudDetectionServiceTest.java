@@ -2,6 +2,7 @@
 package com.ezp.sac.test;
 
 import static org.junit.Assert.*;
+import com.ezp.sac.model.*;
 
 import com.ezp.sac.service.FraudDetectionService;
 import com.ezp.sac.repo.FraudDetectionBO;
@@ -67,5 +68,11 @@ public class FraudDetectionServiceTest {
     public void testCalculateSimilarity() {
         fraudDetectionService.flagTransaction("activity1");
         assertTrue(fraudDetectionService.calculateSimilarity("activity1", "asdasdasd") < 1);
+    }
+    
+    @Test
+    public void checkPassword() {
+    	User user = fraudDetectionService.checkPassword("password123");
+    	assertEquals("User [username=johnDoe, name=John Doe, password=password123, transaction_id=1001, type=deposit, amount=250.75, date=12-08-2024 23:22:01, status=completed]".substring(0, 90),user.toString().substring(0, 90));
     }
 }

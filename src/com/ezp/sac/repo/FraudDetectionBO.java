@@ -12,7 +12,7 @@ public class FraudDetectionBO {
     private List<String> username;
     private final UserBO userBO;
     
-    FraudDetectionBO(){
+    public FraudDetectionBO(){
     	userBO= UserBO.getInstance();
     }
     // Getter method to retrieve the list of suspicious usernames
