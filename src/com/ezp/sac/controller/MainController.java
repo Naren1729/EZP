@@ -20,7 +20,6 @@ public class MainController {
         DecryptionBOService decryptionBOService = new DecryptionBOService();
         UserBO userBO = UserBO.getInstance();
         FraudDetectionService fraudDetectionService = new FraudDetectionService(userBO);
-        userBO.setFraudDetectionService(fraudDetectionService);
 
         
         
@@ -63,24 +62,39 @@ public class MainController {
 
     private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
+        int count = 0;
         System.out.print("\nEnter the username of the user you want to encrypt: ");
         String username = reader.readLine();
 
-        User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
-        if (encryptedUser != null) {
-            System.out.println("\nEncrypted User: " + encryptedUser);
+        System.out.println("Enter the password: ");
+    	String password = reader.readLine();
 
-            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+        User checkPasswordUser = fraudDetectionService.checkPassword(password);
+    	while(checkPasswordUser== null) {
+    		if(count>1) {
+    			break;
+    		}
+            System.out.println("Enter the password again: ");
+    		password = reader.readLine();
+            checkPasswordUser = fraudDetectionService.checkPassword(password);
+    		count++;
+    	}
+        if(checkPasswordUser!= null){
+        	User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
+            System.out.println("\nEncrypted User: " + encryptedUser);
+   
             
+            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+        
             if (decryptedUser != null) {
                 System.out.println("Decrypted User: " + decryptedUser);
             } else {
                 System.out.println("Decryption failed.");
             }
 
-            // processFraudDetection(fraudDetectionService);
-        } else {
-            System.out.println("Invalid username.");
+            }
+        else{
+            System.out.println("Transaction flagged as fraudulent for : " + username );
         }
     }
 

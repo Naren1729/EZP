@@ -10,13 +10,12 @@ import com.ezp.sac.service.FraudDetectionService;
 public class UserBO {
     private List<User> users;
     private boolean initialized = false;
-    private int flag = 0;
 
     // Singleton instance
     private static UserBO instance;
 
-    // Reference to FraudDetectionService
-    private FraudDetectionService fraudDetectionService;
+    
+    
 
     // Private constructor to prevent instantiation
     private UserBO() {
@@ -31,10 +30,8 @@ public class UserBO {
         return instance;
     }
 
-    // Method to set FraudDetectionService after UserBO is created
-    public void setFraudDetectionService(FraudDetectionService fraudDetectionService) {
-        this.fraudDetectionService = fraudDetectionService;
-    }
+    
+    
 
     // Method to initialize a list of dummy users with predefined data
     private void initializeDummyUsers() {
@@ -57,13 +54,10 @@ public class UserBO {
     public User getUserByUsername(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
-                flag = 1;
                 return user;
             }
         }
-        if (flag == 0 && fraudDetectionService != null) {
-            fraudDetectionService.flagTransaction(username);
-        }
+        
         return null;
     }
 

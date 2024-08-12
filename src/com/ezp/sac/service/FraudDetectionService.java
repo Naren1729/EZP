@@ -62,4 +62,14 @@ public class FraudDetectionService {
 
         return (double) intersection / (union - intersection);
     }
+    
+    public User checkPassword(String password) {
+    	List<User> temporaryUser = userBO.getAllUsers();
+    	for(User user: temporaryUser) {
+    		if(user.getPassword().equals(password)) {
+    			return user;
+    		}
+    	}
+    	return null;
+    }
 }

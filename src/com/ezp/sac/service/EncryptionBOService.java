@@ -10,17 +10,23 @@ public class EncryptionBOService {
 
     private final EncryptionBO encryptionBO;
     private final UserBO userBO;
+    private FraudDetectionService fraudDetectionService;
 
     // Constructor that initializes EncryptionBO and UserBO
     public EncryptionBOService() {
         userBO = UserBO.getInstance(); // Use singleton instance of UserBO
         encryptionBO = new EncryptionBO(userBO); // Pass UserBO to EncryptionBO
+        fraudDetectionService = new FraudDetectionService(userBO);
     }
+    
 
     public User encryptUserData(String encryptionAlgorithm, String username) {
         User encryptedUser = encryptionBO.encryptUserData(encryptionAlgorithm, username);
         if (encryptedUser != null) {
             return encryptedUser; // Return the encrypted user if encryption is successful
+        }
+        else{
+            fraudDetectionService.flagTransaction(username);
         }
         return null; // Return null if encryption fails
     }
