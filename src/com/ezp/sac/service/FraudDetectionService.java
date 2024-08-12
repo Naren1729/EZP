@@ -1,6 +1,5 @@
+//Authors: Naren sri sai, Arvind
 package com.ezp.sac.service;
-
-import com.ezp.sac.repo.FraudDetectionBO;
 import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.model.*;
 import java.util.List;
