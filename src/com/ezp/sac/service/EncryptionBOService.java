@@ -1,4 +1,16 @@
-//Author: Bhavansh
+/**
+ * @Author: Bhavansh
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * The EncryptionBOService class acts as a service layer that manages the 
+ * encryption of user data. It integrates with the EncryptionBO and UserBO classes 
+ * to securely encrypt user information based on a specified encryption algorithm. 
+ * Additionally, this service provides a method to retrieve the list of all users 
+ * within the system, ensuring that the encryption process is accessible and centralized.
+ */
+
+
 package com.ezp.sac.service;
 
 import com.ezp.sac.model.User;

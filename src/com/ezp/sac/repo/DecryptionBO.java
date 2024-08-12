@@ -1,4 +1,17 @@
-//Authors: Bhavansh
+/**
+ * @Author : Bhavansh
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * This class handles the decryption of user data using the Vernam Cipher algorithm. 
+ * It decrypts various fields of the User object, including username, name, password, 
+ * transaction ID, type, amount, and status. The class is tightly coupled with the UserBO 
+ * repository to retrieve user data based on the username. The decryption process uses a 
+ * predefined encryption key and includes methods for decrypting Long, Double, and String 
+ * values.
+ */
+
+
 package com.ezp.sac.repo;
 
 import java.util.Base64;

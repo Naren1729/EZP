@@ -1,4 +1,16 @@
-//Authors: Naren Sri Sai, Arvind
+/**
+ * @Authors: Naren Sri Sai, Arvind
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * The FraudDetectionServiceTest class is a unit test class designed to validate the functionality 
+ * of the FraudDetectionService class. It uses JUnit to ensure that the fraud detection service 
+ * processes transactions and calculates risk scores accurately. The test cases include verifying 
+ * the fraud detection mechanism and similarity calculations. The setup includes initializing 
+ * instances of FraudDetectionService, FraudDetectionBO, and FraudDetectionSystem.
+ */
+
+
 package com.ezp.sac.test;
 
 import static org.junit.Assert.*;
@@ -7,41 +19,25 @@ import com.ezp.sac.service.FraudDetectionService;
 import com.ezp.sac.repo.FraudDetectionBO;
 import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.model.FraudDetectionSystem;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class FraudDetectionServiceTest {
 
     private FraudDetectionService fraudDetectionService;
-    private FraudDetectionBO fakeDatabase;
     private FraudDetectionSystem fraudDetectionSystem;
     private UserBO userBO;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
 
     @Before
     public void setUp() throws Exception {
+    	// Initialize the UserBO and FraudDetectionService instances before each test
         userBO = UserBO.getInstance();  // Create a UserBO instance
         fraudDetectionService = new FraudDetectionService(userBO);  // Pass the UserBO instance to the service
-        fakeDatabase = new FraudDetectionBO();
+        new FraudDetectionBO();
         fraudDetectionSystem = new FraudDetectionSystem();
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
 
 //    @Test
 //    public void testGetUsername() {
@@ -59,13 +55,15 @@ public class FraudDetectionServiceTest {
 
     @Test
     public void testDetectFraud() {
+    	// Test to verify that fraud detection system correctly sets the risk score
         fraudDetectionService.detectFraud("johnDoe");
-        assertTrue(fraudDetectionSystem.getRiskScore() == 0);
+        assertTrue(fraudDetectionSystem.getRiskScore() == 0);  // Assuming "johnDoe" has no similarity, so risk score should be 0
     }
 
     @Test
     public void testCalculateSimilarity() {
+    	// Test to check if the similarity score is calculated correctly
         fraudDetectionService.flagTransaction("activity1");
-        assertTrue(fraudDetectionService.calculateSimilarity("activity1", "asdasdasd") < 1);
+        assertTrue(fraudDetectionService.calculateSimilarity("activity1", "asdasdasd") < 1);  // Similarity should be less than 1
     }
 }
