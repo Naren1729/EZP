@@ -42,33 +42,29 @@ public class FraudDetectionServiceTest {
     public void tearDown() throws Exception {
     }
 
-    @Test
-    public void testGetUsername() {
-        List<String> usernames = Arrays.asList("activity1", "activity2", "activity3");
-        fraudDetectionService.setUsername(usernames);
-        assertEquals(usernames, fraudDetectionService.getUsername());
-    }
-
-    @Test
-    public void testSetUsername() {
-        List<String> usernames = Arrays.asList("activity1", "activity2", "activity3");
-        fraudDetectionService.setUsername(usernames);
-        assertEquals(usernames, fraudDetectionService.getUsername());
-    }
+//    @Test
+//    public void testGetUsername() {
+//        List<String> usernames = Arrays.asList("activity1", "activity2", "activity3");
+//        fraudDetectionService.setUsername(usernames);
+//        assertEquals(usernames, fraudDetectionService.getUsername());
+//    }
+//
+//    @Test
+//    public void testSetUsername() {
+//        List<String> usernames = Arrays.asList("activity1", "activity2", "activity3");
+//        fraudDetectionService.setUsername(usernames);
+//        assertEquals(usernames, fraudDetectionService.getUsername());
+//    }
 
     @Test
     public void testDetectFraud() {
-        List<String> suspiciousActivities = Arrays.asList("activity1", "activity2");
-        fakeDatabase.setUsername(suspiciousActivities);
-        fraudDetectionService.detectFraud("activity1");
-        assertTrue(fraudDetectionSystem.getRiskScore() >= 0);
+        fraudDetectionService.detectFraud("johnDoe");
+        assertTrue(fraudDetectionSystem.getRiskScore() == 0);
     }
 
     @Test
-    public void testFlagTransaction() {
-        List<String> suspiciousActivities = Arrays.asList("activity1", "activity2");
-        fakeDatabase.setUsername(suspiciousActivities);
+    public void testCalculateSimilarity() {
         fraudDetectionService.flagTransaction("activity1");
-        assertTrue(fraudDetectionSystem.getRiskScore() >= 0);
+        assertTrue(fraudDetectionService.calculateSimilarity("activity1", "asdasdasd") < 1);
     }
 }

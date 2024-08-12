@@ -51,7 +51,7 @@ public class FraudDetectionService {
         }
     }
     //Jaccard similarity 
-    private double calculateSimilarity(String str1, String str2) {
+    public double calculateSimilarity(String str1, String str2) {
         int intersection = 0;
         int union = str1.length() + str2.length();
 
