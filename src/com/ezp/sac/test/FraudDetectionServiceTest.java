@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import com.ezp.sac.service.FraudDetectionService;
 import com.ezp.sac.repo.FraudDetectionBO;
+import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.model.FraudDetectionSystem;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,6 +20,7 @@ public class FraudDetectionServiceTest {
     private FraudDetectionService fraudDetectionService;
     private FraudDetectionBO fakeDatabase;
     private FraudDetectionSystem fraudDetectionSystem;
+    private UserBO userBO;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -30,7 +32,8 @@ public class FraudDetectionServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        fraudDetectionService = new FraudDetectionService();
+        userBO = UserBO.getInstance();  // Create a UserBO instance
+        fraudDetectionService = new FraudDetectionService(userBO);  // Pass the UserBO instance to the service
         fakeDatabase = new FraudDetectionBO();
         fraudDetectionSystem = new FraudDetectionSystem();
     }

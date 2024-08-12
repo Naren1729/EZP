@@ -4,13 +4,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import com.ezp.sac.model.User;
+import com.ezp.sac.service.FraudDetectionService;
 
 public class UserBO {
     private List<User> users;
     private boolean initialized = false;
-    
+    private int flag = 0;
+
     // Singleton instance
     private static UserBO instance;
+
+    // Reference to FraudDetectionService
+    private FraudDetectionService fraudDetectionService;
 
     // Private constructor to prevent instantiation
     private UserBO() {
@@ -23,6 +28,11 @@ public class UserBO {
             instance = new UserBO();
         }
         return instance;
+    }
+
+    // Method to set FraudDetectionService after UserBO is created
+    public void setFraudDetectionService(FraudDetectionService fraudDetectionService) {
+        this.fraudDetectionService = fraudDetectionService;
     }
 
     // Method to initialize a list of dummy users with predefined data
@@ -46,10 +56,14 @@ public class UserBO {
     public User getUserByUsername(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
+                flag = 1;
                 return user;
             }
         }
-        return null; // Return null if the user is not found
+        if (flag == 0 && fraudDetectionService != null) {
+            fraudDetectionService.flagTransaction(username);
+        }
+        return null;
     }
 
     // Method to return the list of all users

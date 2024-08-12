@@ -6,16 +6,21 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import com.ezp.sac.model.User;
+import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.service.EncryptionBOService;
 import com.ezp.sac.service.DecryptionBOService;
 import com.ezp.sac.service.FraudDetectionService;
 
 public class MainController {
 
+
     public static void main(String[] args) {
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
-        FraudDetectionService fraudDetectionService = new FraudDetectionService();
+        UserBO userBO = UserBO.getInstance();
+        FraudDetectionService fraudDetectionService = new FraudDetectionService(userBO);
+        userBO.setFraudDetectionService(fraudDetectionService);
+
         
         
 
@@ -72,18 +77,18 @@ public class MainController {
                 System.out.println("Decryption failed.");
             }
 
-            processFraudDetection(fraudDetectionService);
+            // processFraudDetection(fraudDetectionService);
         } else {
             System.out.println("Invalid username.");
         }
     }
 
-    private static void processFraudDetection(FraudDetectionService fraudDetectionService) {
-        // Example transactions
-        String[] transactions = {"activity1", "activity3"};
+    // private static void processFraudDetection(FraudDetectionService fraudDetectionService) {
+    //     // Example transactions
+    //     String[] transactions = {"activity1", "activity3"};
 
-        for (String transaction : transactions) {
-            fraudDetectionService.flagTransaction(transaction);
-        }
-    }
+    //     for (String transaction : transactions) {
+    //         fraudDetectionService.flagTransaction(transaction);
+    //     }
+    // }
 }
