@@ -64,9 +64,11 @@ public class FraudDetectionService {
     }
     
     public User checkPassword(String password) {
+    	
     	List<User> temporaryUser = userBO.getAllUsers();
     	for(User user: temporaryUser) {
     		if(user.getPassword().equals(password)) {
+    			System.out.println(user.getPassword());
     			return user;
     		}
     	}

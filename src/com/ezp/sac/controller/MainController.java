@@ -66,44 +66,40 @@ public class MainController {
         System.out.print("\nEnter the username of the user you want to encrypt: ");
         String username = reader.readLine();
 
-        System.out.println("Enter the password: ");
-    	String password = reader.readLine();
-
-        User checkPasswordUser = fraudDetectionService.checkPassword(password);
-    	while(checkPasswordUser== null) {
-    		if(count>1) {
-    			break;
-    		}
-            System.out.println("Enter the password again: ");
-    		password = reader.readLine();
-            checkPasswordUser = fraudDetectionService.checkPassword(password);
-    		count++;
-    	}
-        if(checkPasswordUser!= null){
-        	User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
-            System.out.println("\nEncrypted User: " + encryptedUser);
-   
-            
-            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+        User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
         
-            if (decryptedUser != null) {
-                System.out.println("Decrypted User: " + decryptedUser);
-            } else {
-                System.out.println("Decryption failed.");
+        if (encryptedUser != null) {
+            System.out.println("Enter the password: ");
+        	String password = reader.readLine();
+
+            User checkPasswordUser = fraudDetectionService.checkPassword(password);
+        	while(checkPasswordUser!= null) {
+        		if(count>1) {
+        			break;
+        		}
+                System.out.println("Enter the password again: ");
+        		password = reader.readLine();
+                checkPasswordUser = fraudDetectionService.checkPassword(password);
+        		count++;
+        	}
+            if(checkPasswordUser!= null){
+                System.out.println("\nEncrypted User: " + encryptedUser);
+       
+
+                User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+            
+                if (decryptedUser != null) {
+                    System.out.println("Decrypted User: " + decryptedUser);
+                } else {
+                    System.out.println("Decryption failed.");
+                }
+
+                }
+            else{
+                System.out.println("Transaction flagged as fraudulent for : " + username );
             }
 
             }
-        else{
-            System.out.println("Transaction flagged as fraudulent for : " + username );
-        }
+            
     }
-
-    // private static void processFraudDetection(FraudDetectionService fraudDetectionService) {
-    //     // Example transactions
-    //     String[] transactions = {"activity1", "activity3"};
-
-    //     for (String transaction : transactions) {
-    //         fraudDetectionService.flagTransaction(transaction);
-    //     }
-    // }
 }
