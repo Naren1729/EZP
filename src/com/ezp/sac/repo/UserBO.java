@@ -1,4 +1,14 @@
-//Authors: Bhavansh, Arvind, Keerthana
+/**
+ * @Authors : Bhavansh, Arvind, Keerthana
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * The UserBO class is a singleton responsible for managing user data within the system. 
+ * It provides methods to initialize dummy users, retrieve users by username, update user 
+ * details, and return the list of all users. It also integrates with the FraudDetectionService 
+ * to flag suspicious activities when a username is not found.
+ */
+
 package com.ezp.sac.repo;
 
 import java.time.LocalDateTime;

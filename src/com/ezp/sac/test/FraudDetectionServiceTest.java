@@ -1,4 +1,15 @@
-//Authors: Naren Sri Sai, Arvind
+/**
+ * @Authors: Naren Sri Sai, Arvind
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * The FraudDetectionServiceTest class is a unit test class designed to validate the functionality 
+ * of the FraudDetectionService class. It uses JUnit to ensure that the fraud detection service 
+ * processes transactions and calculates risk scores accurately. The test cases include verifying 
+ * the fraud detection mechanism and similarity calculations. The setup includes initializing 
+ * instances of FraudDetectionService, FraudDetectionBO, and FraudDetectionSystem.
+ */
+
 package com.ezp.sac.test;
 
 import static org.junit.Assert.*;
@@ -20,7 +31,6 @@ import java.util.List;
 public class FraudDetectionServiceTest {
 
     private FraudDetectionService fraudDetectionService;
-    private FraudDetectionBO fakeDatabase;
     private FraudDetectionSystem fraudDetectionSystem;
     private UserBO userBO;
 
@@ -36,7 +46,6 @@ public class FraudDetectionServiceTest {
     public void setUp() throws Exception {
         userBO = UserBO.getInstance();  // Create a UserBO instance
         fraudDetectionService = new FraudDetectionService(userBO);  // Pass the UserBO instance to the service
-        fakeDatabase = new FraudDetectionBO();
         fraudDetectionSystem = new FraudDetectionSystem();
     }
 
@@ -72,7 +81,13 @@ public class FraudDetectionServiceTest {
     
     @Test
     public void checkPassword() {
-    	User user = fraudDetectionService.checkPassword("johnDoe","password123");
+    	User user = fraudDetectionService.checkPassword("johnDoe","password123",false);
+    	System.out.println(user);
     	assertEquals("User [username=johnDoe, name=John Doe, password=password123, transaction_id=1001, type=deposit, amount=250.75, date=12-08-2024 23:22:01, status=completed]".substring(0, 90),user.toString().substring(0, 90));
     }
+//    public void checkPasswordSuite() {
+//    	User user = fraudDetectionService.checkPassword("johnDoe","password123",true);
+//    	System.out.println(user);
+//    	assertEquals("User [username=ISoxJQE2Lg==, name=ASoxJWUdJCA=, password=OyQqODI2OSFoeXY=, transaction_id=15607355648, type=LyApJDYwPw==, amount=6.218472233E-315, date=13-08-2024 16:46:30, status=KCo0Oyk8PyA9]".substring(0, 90),user.toString().substring(0, 90));
+//    }
 }

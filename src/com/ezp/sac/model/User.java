@@ -1,4 +1,13 @@
-//Authors Bhavansh,Arvind 
+/**
+ * @Author : Bhavansh, Arvind
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * This class represents a User model that contains user information as well as transaction details.
+ * It includes fields for storing user credentials and transaction attributes such as transaction ID, type,
+ * amount, date, and status. The class provides getters and setters for these fields, a constructor for initialization,
+ * and a toString method for displaying user and transaction details in a formatted string.
+ */
 package com.ezp.sac.model;
 
 import java.time.*;

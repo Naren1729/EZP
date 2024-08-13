@@ -1,4 +1,14 @@
-//Author: Keerthana
+/**
+ * @Author: Keerthana
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * The EncryptionBOServiceTest class is a unit test class for testing the functionality of
+ * the EncryptionBOService class. It uses JUnit to verify that the encryption and decryption
+ * processes are working as expected. The test cases check if the EncryptionBOService instance 
+ * is created properly, if user data is encrypted correctly, and if the list of users is returned
+ * accurately. The class ensures that both valid and invalid inputs are handled appropriately.
+ */
 package com.ezp.sac.test;
 
 import com.ezp.sac.service.*;

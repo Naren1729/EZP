@@ -1,4 +1,11 @@
-//Authors: Naren sri sai, Arvind
+/**
+ * @Author : Naren sri sai, Arvind
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * FraudDetectionSystem class represents a system that detects fraudulent activities.
+ * It contains information about usernames and their associated risk scores.
+ */
 package com.ezp.sac.model;
 
 import java.util.List;

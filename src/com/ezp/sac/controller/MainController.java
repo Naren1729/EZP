@@ -1,4 +1,14 @@
-//Authors: Bhavansh,Naren sri sai, Arvind
+/**
+ * @Author : Bhavansh, Naren Sri Sai, Arvind
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * This is the main controller class for the encryption and decryption service application.
+ * It interacts with the user through the console, allowing the selection of encryption 
+ * algorithms and the processing of user data. The Vernam Cipher (One-Time Pad) is currently 
+ * implemented for encryption and decryption. The application also includes a fraud detection 
+ * service that can be extended for further functionality.
+ */
 package com.ezp.sac.controller;
 
 import java.io.BufferedReader;
@@ -35,7 +45,7 @@ public class MainController {
             while (true) {
                 System.out.println("\nEnter the number corresponding to the algorithm you want to use:");
                 System.out.println("Encryption Algorithms:");
-                System.out.println("1: Display transaction Details in Vernam Cipher (One-Time Pad) Concept");
+                System.out.println("1: Proceed transaction with Vernam Cipher (One-Time Pad) Concept");
                 System.out.println("0: Exit");
 
                 System.out.print("\nEnter your choice: ");
@@ -72,7 +82,7 @@ public class MainController {
             System.out.println("Enter the password: ");
         	String password = reader.readLine();
 
-            User checkPasswordUser = fraudDetectionService.checkPassword(username,password);
+            User checkPasswordUser = fraudDetectionService.checkPassword(username,password,true);
         	while(checkPasswordUser== null){
         		if(count>1) {
         			User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
@@ -80,7 +90,7 @@ public class MainController {
         		}
                 System.out.println("Enter the password again: ");
         		password = reader.readLine();
-                checkPasswordUser = fraudDetectionService.checkPassword(username,password);
+                checkPasswordUser = fraudDetectionService.checkPassword(username,password,true);
         		count++;
         	}
             if(checkPasswordUser!= null){

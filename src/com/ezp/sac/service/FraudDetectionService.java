@@ -1,4 +1,16 @@
-//Authors: Naren sri sai, Arvind
+/**
+ * @Authors: Naren Sri Sai, Arvind
+ * @Date : 11/08/2024
+ * 
+ * @Description:
+ * The FraudDetectionService class is responsible for detecting and flagging potentially
+ * fraudulent transactions based on username similarity analysis. It utilizes a custom
+ * Jaccard similarity calculation to compare transaction details with existing usernames
+ * in the system, determining a risk score. Depending on the calculated risk score, the 
+ * service can flag transactions as fraudulent or incorrect, ensuring enhanced security 
+ * and reliability in transaction processing.
+ */
+
 package com.ezp.sac.service;
 import com.ezp.sac.model.*;
 import java.util.List;
@@ -64,19 +76,44 @@ public class FraudDetectionService {
         return (double) intersection / (union - intersection);
     }
     
-    public User checkPassword(String username,String password) {
+    public User checkPassword(String username,String password,boolean encryption) {
     	String new_username=encryptionBO.encrypt(username);
-        System.out.println(new_username);
-    	User temporaryUser = userBO.getUserByUsername(new_username);
-            String new_password=encryptionBO.encrypt(password);
-            if(temporaryUser.getPassword().equals(new_password)){
-                return temporaryUser;
+        if(encryption) {
+        	User temporaryUser = userBO.getUserByUsername(new_username);
+        	String new_password=encryptionBO.encrypt(password);
+        	if(temporaryUser!=null) {
+	            if(temporaryUser.getPassword().equals(new_password)){
+	                return temporaryUser;
+	            }
+	            else{
+	                return null;
+	            }
+        	}
+        	else {
+            	return null;
             }
-            else{
-                return null;
-            }
+        }
+        
+        	
+        else {
+        	User temporaryUser = userBO.getUserByUsername(username);
+        	if(temporaryUser!=null) {
+        		if(temporaryUser.getPassword().equals(password)){
+        			return temporaryUser;
+        		}
+        		else{
+        			return null;
+        		}
+        	}
+        	else {
+        		return null;
+        	}
+        	
+        }
+    	
+            
             
     	}
     	
-}
+    }
 
