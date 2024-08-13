@@ -73,7 +73,7 @@ public class MainController {
         	String password = reader.readLine();
 
             User checkPasswordUser = fraudDetectionService.checkPassword(password);
-        	while(checkPasswordUser!= null) {
+        	while(checkPasswordUser== null) {
         		if(count>1) {
         			break;
         		}
