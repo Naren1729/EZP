@@ -75,6 +75,7 @@ public class MainController {
             User checkPasswordUser = fraudDetectionService.checkPassword(password);
         	while(checkPasswordUser== null) {
         		if(count>1) {
+        			User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
         			break;
         		}
                 System.out.println("Enter the password again: ");
