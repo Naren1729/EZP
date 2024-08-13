@@ -72,7 +72,7 @@ public class FraudDetectionServiceTest {
     
     @Test
     public void checkPassword() {
-    	User user = fraudDetectionService.checkPassword("password123");
+    	User user = fraudDetectionService.checkPassword("johnDoe","password123");
     	assertEquals("User [username=johnDoe, name=John Doe, password=password123, transaction_id=1001, type=deposit, amount=250.75, date=12-08-2024 23:22:01, status=completed]".substring(0, 90),user.toString().substring(0, 90));
     }
 }

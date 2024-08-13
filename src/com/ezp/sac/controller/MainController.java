@@ -35,7 +35,7 @@ public class MainController {
             while (true) {
                 System.out.println("\nEnter the number corresponding to the algorithm you want to use:");
                 System.out.println("Encryption Algorithms:");
-                System.out.println("1: Vernam Cipher (One-Time Pad) Concept");
+                System.out.println("1: Display transaction Details in Vernam Cipher (One-Time Pad) Concept");
                 System.out.println("0: Exit");
 
                 System.out.print("\nEnter your choice: ");
@@ -63,7 +63,7 @@ public class MainController {
     private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
         int count = 0;
-        System.out.print("\nEnter the username of the user you want to encrypt: ");
+        System.out.print("\nEnter the username of the user you want to see the Transactions for: ");
         String username = reader.readLine();
 
         User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
@@ -72,20 +72,20 @@ public class MainController {
             System.out.println("Enter the password: ");
         	String password = reader.readLine();
 
-            User checkPasswordUser = fraudDetectionService.checkPassword(password);
-        	while(checkPasswordUser== null) {
+            User checkPasswordUser = fraudDetectionService.checkPassword(username,password);
+        	while(checkPasswordUser== null){
         		if(count>1) {
         			User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
         			break;
         		}
                 System.out.println("Enter the password again: ");
         		password = reader.readLine();
-                checkPasswordUser = fraudDetectionService.checkPassword(password);
+                checkPasswordUser = fraudDetectionService.checkPassword(username,password);
         		count++;
         	}
             if(checkPasswordUser!= null){
                 System.out.println("\nEncrypted User: " + encryptedUser);
-       
+                
 
                 User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
             

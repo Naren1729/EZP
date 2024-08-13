@@ -1,18 +1,19 @@
 //Authors: Naren sri sai, Arvind
 package com.ezp.sac.service;
-import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.model.*;
 import java.util.List;
 
+import com.ezp.sac.repo.*;
 public class FraudDetectionService {
 
 
-    private final FraudDetectionSystem fraudDetectionSystem = new FraudDetectionSystem();
-    private final UserBO userBO;
-
+    private FraudDetectionSystem fraudDetectionSystem = new FraudDetectionSystem();
+    private static UserBO userBO;
     public FraudDetectionService(UserBO userBO) {
-        this.userBO = userBO;
+        this.userBO = userBO.getInstance();
     }
+    private EncryptionBO encryptionBO= new EncryptionBO(userBO.getInstance());
+    
 
     public List<String> getUsername() {
         return fraudDetectionSystem.getUsername();
@@ -63,15 +64,19 @@ public class FraudDetectionService {
         return (double) intersection / (union - intersection);
     }
     
-    public User checkPassword(String password) {
-    	
-    	List<User> temporaryUser = userBO.getAllUsers();
-    	for(User user: temporaryUser) {
-    		if(user.getPassword().equals(password)) {
-    			System.out.println(user.getPassword());
-    			return user;
-    		}
+    public User checkPassword(String username,String password) {
+    	String new_username=encryptionBO.encrypt(username);
+        System.out.println(new_username);
+    	User temporaryUser = userBO.getUserByUsername(new_username);
+            String new_password=encryptionBO.encrypt(password);
+            if(temporaryUser.getPassword().equals(new_password)){
+                return temporaryUser;
+            }
+            else{
+                return null;
+            }
+            
     	}
-    	return null;
-    }
+    	
 }
+
