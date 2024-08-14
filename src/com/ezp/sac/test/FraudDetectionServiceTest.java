@@ -34,14 +34,6 @@ public class FraudDetectionServiceTest {
     private FraudDetectionSystem fraudDetectionSystem;
     private UserBO userBO;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
     @Before
     public void setUp() throws Exception {
         userBO = UserBO.getInstance();  // Create a UserBO instance
@@ -49,9 +41,6 @@ public class FraudDetectionServiceTest {
         fraudDetectionSystem = new FraudDetectionSystem();
     }
 
-    @After
-    public void tearDown() throws Exception {
-    }
 
 //    @Test
 //    public void testGetUsername() {

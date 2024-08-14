@@ -24,24 +24,22 @@ import com.ezp.sac.service.FraudDetectionService;
 
 public class MainController {
 
-
     public static void main(String[] args) {
+        // Initialize the services
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
         UserBO userBO = UserBO.getInstance();
         FraudDetectionService fraudDetectionService = new FraudDetectionService(userBO);
 
-        
-        
-
-        
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            // Display all users
             System.out.println("All users list:");
             List<User> allUsers = encryptionBOService.getAllUsers();
             for (User user : allUsers) {
                 System.out.println(user);
             }
 
+            // Main loop for handling user input
             while (true) {
                 System.out.println("\nEnter the number corresponding to the algorithm you want to use:");
                 System.out.println("Encryption Algorithms:");
@@ -51,11 +49,13 @@ public class MainController {
                 System.out.print("\nEnter your choice: ");
                 String choice = reader.readLine();
 
+                // Exit condition
                 if (choice.equals("0")) {
                     System.out.println("Exiting...");
                     break;
                 }
 
+                // Handle the user's choice
                 switch (choice) {
                     case "1":
                         handleEncryption(encryptionBOService, decryptionBOService, reader, fraudDetectionService);
@@ -70,47 +70,65 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the encryption and decryption process for a given user.
+     * 
+     * @param encryptionBOService    Service for encrypting user data.
+     * @param decryptionBOService    Service for decrypting user data.
+     * @param reader                 BufferedReader for reading user input.
+     * @param fraudDetectionService  Service for detecting fraudulent transactions.
+     * @throws IOException           In case of an input/output error.
+     */
+    
     private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
         int count = 0;
+
+        // Prompt for the username to view transactions
         System.out.print("\nEnter the username of the user you want to see the Transactions for: ");
         String username = reader.readLine();
 
+        // Encrypt the user's data
         User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
         
         if (encryptedUser != null) {
+            // Prompt for the password
             System.out.println("Enter the password: ");
-        	String password = reader.readLine();
+            String password = reader.readLine();
 
-            User checkPasswordUser = fraudDetectionService.checkPassword(username,password,true);
-        	while(checkPasswordUser== null){
-        		if(count>1) {
-        			User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
-        			break;
-        		}
+            // Check if the provided password is correct
+            User checkPasswordUser = fraudDetectionService.checkPassword(username, password, true);
+
+            // Allow up to 2 attempts for entering the correct password
+            while (checkPasswordUser == null) {
+                if (count > 1) {
+                    // If failed after 2 attempts, decrypt and stop further processing
+                    User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+                    break;
+                }
                 System.out.println("Enter the password again: ");
-        		password = reader.readLine();
-                checkPasswordUser = fraudDetectionService.checkPassword(username,password,true);
-        		count++;
-        	}
-            if(checkPasswordUser!= null){
+                password = reader.readLine();
+                checkPasswordUser = fraudDetectionService.checkPassword(username, password, true);
+                count++;
+            }
+
+            // If the password is correct, proceed with decryption
+            if (checkPasswordUser != null) {
                 System.out.println("\nEncrypted User: " + encryptedUser);
                 
-
+                // Decrypt the user data
                 User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
-            
+                
+                // Display the decrypted user data
                 if (decryptedUser != null) {
                     System.out.println("Decrypted User: " + decryptedUser);
                 } else {
                     System.out.println("Decryption failed.");
                 }
-
-                }
-            else{
-                System.out.println("Transaction flagged as fraudulent for : " + username );
+            } else {
+                // Flag the transaction as fraudulent if the password is incorrect
+                System.out.println("Transaction flagged as fraudulent for: " + username);
             }
-
-            }
-            
+        }
     }
 }

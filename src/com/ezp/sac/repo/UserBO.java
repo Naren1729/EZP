@@ -22,10 +22,7 @@ public class UserBO {
     private boolean initialized = false;
 
     // Singleton instance
-    private static UserBO instance;
-
-    
-    
+    private static UserBO instance;    
 
     // Private constructor to prevent instantiation
     private UserBO() {
@@ -38,11 +35,8 @@ public class UserBO {
             instance = new UserBO();
         }
         return instance;
-    }
-
+    } 
     
-    
-
     // Method to initialize a list of dummy users with predefined data
     private void initializeDummyUsers() {
         if (!initialized) { // Check if initialization is needed
