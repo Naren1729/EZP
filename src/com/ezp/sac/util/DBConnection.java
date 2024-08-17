@@ -11,7 +11,7 @@ public class DBConnection {
 	// JDBC connection details
     private static final String url = "jdbc:oracle:thin:@localhost:1521:xe"; // Replace with your DB URL
     private static final String username = "system"; // Replace with your DB username
-    private static final String password = "Natwest123"; // Replace with your DB password
+    private static final String password = "natwest123"; // Replace with your DB password
 
     // Private constructor to prevent instantiation
     private DBConnection() {}
