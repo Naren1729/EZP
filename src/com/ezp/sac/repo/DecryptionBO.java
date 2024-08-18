@@ -1,14 +1,14 @@
 /**
- * @Author : Bhavansh
- * @Date : 11/08/2024
+ * @Authors : Keerthana B, Bhavansh
+ * @Date : 19/08/2024
  * 
  * @Description:
- * This class handles the decryption of user data using the Vernam Cipher algorithm. 
- * It decrypts various fields of the User object, including username, name, password, 
- * transaction ID, type, amount, and status. The class is tightly coupled with the UserBO 
- * repository to retrieve user data based on the username. The decryption process uses a 
- * predefined encryption key and includes methods for decrypting Long, Double, and String 
- * values.
+ * This class manages the decryption of user data using the Vernam Cipher algorithm. 
+ * It decrypts various fields in the `User` object, such as the username, name, 
+ * password, transaction ID, type, amount, and status. The class works closely 
+ * with the `UserBO` repository to fetch user data based on the username. The 
+ * decryption process utilizes a predefined key and provides methods for decrypting 
+ * `Long`, `Double`, and `String` values.
  */
 package com.ezp.sac.repo;
 
@@ -39,6 +39,8 @@ public class DecryptionBO {
                 user.setAmount(decryptDouble(user.getAmount())); // Decrypt the amount
                 user.setDate(user.getDate()); // Date is not decrypted
                 user.setStatus(decrypt(user.getStatus()));
+                userBO.updateUser(user,username);
+
                 return user;
             }
         }
@@ -60,6 +62,7 @@ public class DecryptionBO {
 
     // Decrypt Double value
     public double decryptDouble(double val) {
+    	val = Math.pow(10,-200)*val; // Scale adjustment 
         byte[] keyBytes = encryptionKey.getBytes();
         long longBits = Double.doubleToLongBits(val);
         long decrypted = longBits;

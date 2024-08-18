@@ -1,13 +1,11 @@
 /**
- * @Authors : Bhavansh, Keerthana
- * @Date : 11/08/2024
+ * @Authors : Keerthana B, Bhavansh
+ * @Date : 19/08/2024
  * 
  * @Description:
- * The DecryptionBOService class serves as a service layer that facilitates the 
- * decryption of user data. It integrates with the DecryptionBO and UserBO classes 
- * to retrieve and decrypt user information based on the provided encryption algorithm 
- * and username. This service ensures that the decryption process is centralized and 
- * can be easily accessed within the application.
+ * This class of DecryptionBOService acts as an intermediate to the 
+ * DecryptionBO and UserBO classes where the actual business logic 
+ * for decryption of the user details is written by aiding as a service layer.
  */
 
 package com.ezp.sac.service;

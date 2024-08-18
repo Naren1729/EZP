@@ -1,20 +1,26 @@
 /**
- * @Author : Bhavansh, Naren Sri Sai, Arvind
- * @Date : 11/08/2024
+ * @Authors : Keerthana B, Bhavansh, Naren Sri Sai, Arvind
+ * @Date : 19/08/2024
  * 
  * @Description:
  * This is the main controller class for the encryption and decryption service application.
+ * This is achieved by using a RDBMS (Oracle SQL) connected to the java program using JDBC.
  * It interacts with the user through the console, allowing the selection of encryption 
  * algorithms and the processing of user data. The Vernam Cipher (One-Time Pad) is currently 
  * implemented for encryption and decryption. The application also includes a fraud detection 
  * service that can be extended for further functionality.
  */
+
+
+/**
+ * @BeforeExecution: Run the attached SQL file's command under Oracle SQL Command Line Window
+ */
+
 package com.ezp.sac.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import com.ezp.sac.model.User;
 import com.ezp.sac.repo.UserBO;
@@ -32,12 +38,12 @@ public class MainController {
         FraudDetectionService fraudDetectionService = new FraudDetectionService(userBO);
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            // Display all users
-            System.out.println("All users list:");
-            List<User> allUsers = encryptionBOService.getAllUsers();
-            for (User user : allUsers) {
-                System.out.println(user);
-            }
+    		// Display table contents
+    		System.out.println();
+    		System.out.println("Table of all users:");
+    		System.out.println();
+    		encryptionBOService.displayUserTable();
+    		
 
             // Main loop for handling user input
             while (true) {
@@ -82,7 +88,6 @@ public class MainController {
     
     private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
-        int count = 0;
 
         // Prompt for the username to view transactions
         System.out.print("\nEnter the username of the user you want to see the Transactions for: ");
@@ -90,45 +95,23 @@ public class MainController {
 
         // Encrypt the user's data
         User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
-        
+        // Displaying encrypted record
         if (encryptedUser != null) {
-            // Prompt for the password
-            System.out.println("Enter the password: ");
-            String password = reader.readLine();
-
-            // Check if the provided password is correct
-            User checkPasswordUser = fraudDetectionService.checkPassword(username, password, true);
-
-            // Allow up to 2 attempts for entering the correct password
-            while (checkPasswordUser == null) {
-                if (count > 1) {
-                    // If failed after 2 attempts, decrypt and stop further processing
-                    User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
-                    break;
-                }
-                System.out.println("Enter the password again: ");
-                password = reader.readLine();
-                checkPasswordUser = fraudDetectionService.checkPassword(username, password, true);
-                count++;
-            }
-
-            // If the password is correct, proceed with decryption
-            if (checkPasswordUser != null) {
-                System.out.println("\nEncrypted User: " + encryptedUser);
-                
-                // Decrypt the user data
-                User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
-                
-                // Display the decrypted user data
-                if (decryptedUser != null) {
-                    System.out.println("Decrypted User: " + decryptedUser);
-                } else {
-                    System.out.println("Decryption failed.");
-                }
+            System.out.println("\nEncrypted User: " + encryptedUser);
+            
+            // Decrypt the user's data
+            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+            
+            // Displaying decrypted record
+            if (decryptedUser != null) {
+                System.out.println("Decrypted User: " + decryptedUser);
             } else {
-                // Flag the transaction as fraudulent if the password is incorrect
-                System.out.println("Transaction flagged as fraudulent for: " + username);
+                System.out.println("Decryption failed.");
             }
+
+        } else {
+            System.out.println("Invalid username.");
         }
+
     }
 }

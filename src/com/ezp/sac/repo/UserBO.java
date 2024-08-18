@@ -1,41 +1,38 @@
 /**
- * @Authors : Bhavansh, Arvind, Keerthana
- * @Date : 11/08/2024
+ * @Authors : Keerthana B
+ * @Date : 19/08/2024
  * 
  * @Description:
- * The UserBO class is a singleton responsible for managing user data within the system. 
- * It provides methods to initialize dummy users, retrieve users by username, update user 
- * details, and return the list of all users. It also integrates with the FraudDetectionService 
- * to flag suspicious activities when a username is not found.
+ * The UserBO class is responsible for managing user data in the database. 
+ * It provides functionality to insert new records, verify the existence 
+ * of a username, display all table contents, and update user records with 
+ * encrypted or decrypted details. This class also initializes the database 
+ * with predefined dummy users, ensuring consistent data for operations.
  */
 
 package com.ezp.sac.repo;
 
-import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 import com.ezp.sac.model.User;
-import com.ezp.sac.util.DBConnection;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import com.ezp.sac.util.DbConnection;
 
 public class UserBO {
-    private List<User> users;
     private boolean initialized = false;
 
     // Singleton instance
     private static UserBO instance;    
     
-    //JDBC Connection
-    private Connection connection;
-
     // Private constructor to prevent instantiation
     private UserBO() {
-    	try {
-            connection = DBConnection.getConnection();
-            initializeDummyUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    	initializeDatabaseTable();
     }
 
     // Public method to provide access to the singleton instance
@@ -46,111 +43,208 @@ public class UserBO {
         return instance;
     } 
     
-    // Method to initialize a list of dummy users with predefined data
-//    private void initializeDummyUsers() {
-//        if (!initialized) { // Check if initialization is needed
-//            System.out.println("Array List Created!!!");
-//            users = new ArrayList<>();
-//            users.add(new User("johnDoe", "John Doe", "password123", 1001L, "deposit", 250.75, LocalDateTime.now(), "completed"));
-//            users.add(new User("janeSmith", "Jane Smith", "password456", 1002L, "withdrawal", 100.50, LocalDateTime.now(), "pending"));
-//            users.add(new User("aliceJones", "Alice Jones", "password789", 1003L, "deposit", 500.00, LocalDateTime.now(), "completed"));
-//            users.add(new User("bobBrown", "Bob Brown", "password012", 1004L, "transfer", 150.25, LocalDateTime.now(), "failed"));
-//            users.add(new User("carolWhite", "Carol White", "password345", 1005L, "deposit", 75.00, LocalDateTime.now(), "completed"));
-//            users.add(new User("keerthanaB", "Keerthana B", "password123", 1001L, "deposit", 250.75, LocalDateTime.now(), "completed"));
-//            users.add(new User("bhavanshG", "Bhavansh G", "password456", 1002L, "withdrawal", 100.50, LocalDateTime.now(), "pending"));
-//            users.add(new User("alisonRose", "Alison Rose", "password789", 1003L, "deposit", 500.00, LocalDateTime.now(), "completed"));
-//            initialized = true; // Set flag to true after initialization
-//        }
-//    }
     
-    
-    // Method to initialize a list of dummy users with predefined data
-    private void initializeDummyUsers() {
-        if (!initialized) { // Check if initialization is needed
-            System.out.println("Initializing users from database...");
-            users = new ArrayList<>();
-            String query = "SELECT * FROM users";
+	// Method to initialize the table of dummy users with predefined data
+    // Using PreparedStatement for accessing users table contents
+	private void initializeDatabaseTable() {
+		// Using try-with to enable auto-close of connection and preparedStatement
+		try (Connection connection = DbConnection.getConnection(); 
+				PreparedStatement preparedStatementDelete = connection.prepareStatement("DELETE FROM users"); // Delete if any records present : PreparedStatement creation
+				PreparedStatement preparedStatementInsert = connection
+						.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) { // Add new entries / dummy users into table : : PreparedStatement creation
+			if (!initialized) {
+	            System.out.println("Created table in given database...");
+				System.out.println("Entering records into user table using JDBC and SQL!!!");
 
-            try (Statement stmt = connection.createStatement();
-                 ResultSet rs = stmt.executeQuery(query)) {
+				// Delete if any records present : PreparedStatement execution
+				preparedStatementDelete.executeQuery();
 
-                while (rs.next()) {
-                    User user = new User(
-                            rs.getString("username"),
-                            rs.getString("name"),
-                            rs.getString("password"),
-                            rs.getLong("transaction_id"),
-                            rs.getString("transaction_type"),
-                            rs.getDouble("amount"),
-                            rs.getTimestamp("transaction_time").toLocalDateTime(),
-                            rs.getString("status")
-                    );
-                    users.add(user);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            initialized = true; // Set flag to true after initialization
-        }
-    }
-    
+				// Add new entries / dummy users into table : PreparedStatement execution
+				preparedStatementInsert.setString(1, "johnDoe");
+				preparedStatementInsert.setString(2, "John Doe");
+				preparedStatementInsert.setString(3, "password123");
+				preparedStatementInsert.setLong(4, 1001L);
+				preparedStatementInsert.setString(5, "deposit");
+				preparedStatementInsert.setDouble(6, 250.75);
+				// Converting LocalDateTime type of class attribute to Timestamp type of table
+				// attribute
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "completed");
+				preparedStatementInsert.addBatch(); // Adding next record
 
- // Method to get a user by their username
-    public User getUserByUsername(String username) {
-        String query = "SELECT * FROM users WHERE username = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, username);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return new User(
-                            rs.getString("username"),
-                            rs.getString("name"),
-                            rs.getString("password"),
-                            rs.getLong("transaction_id"),
-                            rs.getString("transaction_type"),
-                            rs.getDouble("amount"),
-                            rs.getTimestamp("transaction_time").toLocalDateTime(),
-                            rs.getString("status")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+				preparedStatementInsert.setString(1, "janeSmith");
+				preparedStatementInsert.setString(2, "Jane Smith");
+				preparedStatementInsert.setString(3, "password456");
+				preparedStatementInsert.setLong(4, 1002L);
+				preparedStatementInsert.setString(5, "withdrawal");
+				preparedStatementInsert.setDouble(6, 100.50);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "pending");
+				preparedStatementInsert.addBatch();
 
-    // Method to return the list of all users
-    public List<User> getAllUsers() {
-        return new ArrayList<>(users); // Return a copy of the list to prevent modification
-    }
+				preparedStatementInsert.setString(1, "aliceJones");
+				preparedStatementInsert.setString(2, "Alice Jones");
+				preparedStatementInsert.setString(3, "password789");
+				preparedStatementInsert.setLong(4, 1003L);
+				preparedStatementInsert.setString(5, "deposit");
+				preparedStatementInsert.setDouble(6, 500.00);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "completed");
+				preparedStatementInsert.addBatch();
 
- // Method to update user details
-    public void updateUser(User updatedUser) {
-        String query = "UPDATE users SET name = ?, password = ?, transaction_id = ?, transaction_type = ?, amount = ?, transaction_time = ?, status = ? WHERE username = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
-            pstmt.setString(1, updatedUser.getName());
-            pstmt.setString(2, updatedUser.getPassword());
-            pstmt.setLong(3, updatedUser.getTransaction_id());
-            pstmt.setString(4, updatedUser.getType());
-            pstmt.setDouble(5, updatedUser.getAmount());
-            pstmt.setTimestamp(6, Timestamp.valueOf(updatedUser.getDate()));
-            pstmt.setString(7, updatedUser.getStatus());
-            pstmt.setString(8, updatedUser.getUsername());
+				preparedStatementInsert.setString(1, "bobBrown");
+				preparedStatementInsert.setString(2, "Bob Brown");
+				preparedStatementInsert.setString(3, "password012");
+				preparedStatementInsert.setLong(4, 1004L);
+				preparedStatementInsert.setString(5, "transfer");
+				preparedStatementInsert.setDouble(6, 150.25);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "failed");
+				preparedStatementInsert.addBatch();
 
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                // Update the in-memory list
-                for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getUsername().equals(updatedUser.getUsername())) {
-                        users.set(i, updatedUser);
-                        return;
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+				preparedStatementInsert.setString(1, "carolWhite");
+				preparedStatementInsert.setString(2, "Carol White");
+				preparedStatementInsert.setString(3, "password345");
+				preparedStatementInsert.setLong(4, 1005L);
+				preparedStatementInsert.setString(5, "deposit");
+				preparedStatementInsert.setDouble(6, 75.00);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "completed");
+				preparedStatementInsert.addBatch();
+
+				preparedStatementInsert.setString(1, "keerthanaB");
+				preparedStatementInsert.setString(2, "Keerthana B");
+				preparedStatementInsert.setString(3, "password123");
+				preparedStatementInsert.setLong(4, 1001L);
+				preparedStatementInsert.setString(5, "deposit");
+				preparedStatementInsert.setDouble(6, 250.75);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "completed");
+				preparedStatementInsert.addBatch();
+
+				preparedStatementInsert.setString(1, "bhavanshG");
+				preparedStatementInsert.setString(2, "Bhavansh G");
+				preparedStatementInsert.setString(3, "password456");
+				preparedStatementInsert.setLong(4, 1002L);
+				preparedStatementInsert.setString(5, "withdrawal");
+				preparedStatementInsert.setDouble(6, 100.50);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "pending");
+				preparedStatementInsert.addBatch();
+
+				preparedStatementInsert.setString(1, "alisonRose");
+				preparedStatementInsert.setString(2, "Alison Rose");
+				preparedStatementInsert.setString(3, "password789");
+				preparedStatementInsert.setLong(4, 1003L);
+				preparedStatementInsert.setString(5, "deposit");
+				preparedStatementInsert.setDouble(6, 500.00);
+				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+				preparedStatementInsert.setString(8, "completed");
+				int res[] = preparedStatementInsert.executeBatch(); // Executing insert query in a batch
+				for (int i : res) { // Checking if inserted properly
+					if (i > 0)
+						continue;
+					else
+						connection.rollback();
+				}
+				connection.commit(); // Committing changes made
+				initialized = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return;
+
+	}
+
+	// Method to get a user by their username and check if the entered username
+	// exists or not
+	public User getUserByUsername(String username) {
+
+
+		try (Connection connection = DbConnection.getConnection();
+				PreparedStatement preparedStatementSelect = connection
+						.prepareStatement("SELECT * FROM users WHERE username = \'" + username + "\'");  // Select if any record's username matches given username
+				ResultSet resultSet = preparedStatementSelect.executeQuery();) { // Storing the result table into resultSet
+
+			if(!resultSet.next())
+				return null;
+			String obtainedUsername = resultSet.getString(1);
+			if (obtainedUsername != null) {
+				connection.commit();
+				// Converting and passing the matched record as a class reference
+				return new User(obtainedUsername, resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
+						resultSet.getString(5), resultSet.getDouble(6), (resultSet.getTimestamp(7)).toLocalDateTime(),
+						resultSet.getString(8));
+				// Converting Timestamp type of table attribute to LocalDateTime type of class
+				// attribute
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; // Return null if the user is not found
+
+	}
+
+	// Method to update user details
+	public void updateUser(User updatedUser, String username) {
+		try (Connection connection = DbConnection.getConnection();
+				PreparedStatement preparedStatementUpdate = connection.prepareStatement(
+						"UPDATE users SET username = ?, name = ?, password = ?, transaction_id = ?, transaction_type = ?, amount = ?, transaction_time = ?, status = ? WHERE username = ?");) {
+			// Updating the table record whose username matches the given username with the corresponding encrypted / decrypted records
+			preparedStatementUpdate.setString(1, updatedUser.getUsername());
+			preparedStatementUpdate.setString(2, updatedUser.getName());
+			preparedStatementUpdate.setString(3, updatedUser.getPassword());
+			preparedStatementUpdate.setLong(4, updatedUser.getTransaction_id());
+			preparedStatementUpdate.setString(5, updatedUser.getType());
+			preparedStatementUpdate.setDouble(6, updatedUser.getAmount());
+			preparedStatementUpdate.setTimestamp(7, Timestamp.valueOf(updatedUser.getDate()));
+			preparedStatementUpdate.setString(8, updatedUser.getStatus());
+			preparedStatementUpdate.setString(9, username);
+			preparedStatementUpdate.executeUpdate();
+			//connection.commit();
+			return;
+			// Handle case where user does not exist, e.g., throw an exception or log an
+			// error
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
+	// Method to Display the table of all users
+	public void displayUserTable(){
+		try (Connection connection = DbConnection.getConnection();
+				PreparedStatement preparedStatementSelectAll = connection.prepareStatement("SELECT * FROM users");
+				ResultSet resultSet = preparedStatementSelectAll.executeQuery())
+		{
+		
+		connection.commit();
+		// Get metadata to dynamically handle column names and count
+		ResultSetMetaData metaData = resultSet.getMetaData();
+		int columnCount = metaData.getColumnCount();
+
+		// Print column names
+		for (int i = 1; i <= columnCount; i++) {
+			System.out.printf("%-20s", metaData.getColumnName(i)); // data length adjusted
+		}
+		System.out.println("\n" + "-".repeat(20 * columnCount)); // Separator line
+
+		// Print each record
+		while (resultSet.next()) {
+			for (int i = 1; i <= columnCount; i++) {
+				String columnValue = resultSet.getString(i);
+				System.out.printf("%-20s", columnValue);
+			}
+			System.out.println();
+		}
+	}catch (SQLException e) {
+		e.printStackTrace();
+	}
+		return;
+		
+	}
     
 }

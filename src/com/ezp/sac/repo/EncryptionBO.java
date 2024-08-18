@@ -1,13 +1,16 @@
 /**
- * @Author : Bhavansh
- * @Date : 11/08/2024
+ * @Authors : Keerthana B, Bhavansh
+ * @Date : 19/08/2024
  * 
  * @Description:
- * This class handles the encryption of user data using the Vernam Cipher algorithm. 
- * It encrypts various fields of the User object, including username, name, password, 
- * transaction ID, type, amount, and status. The class interacts with the UserBO repository 
- * to retrieve and update user data. The encryption process uses a predefined encryption key 
- * and includes methods for encrypting Long, Double, and String values.
+ * This class is responsible for encrypting user data using
+ * the Vernam Cipher algorithm. It handles the encryption of 
+ * various fields within the `User` object, such as the 
+ * username, name, password, transaction ID, type, amount, 
+ * and status. The class works with the `UserBO` repository 
+ * to retrieve and update user data. It uses a predefined 
+ * encryption key and provides methods for encrypting `Long`, 
+ * `Double`, and `String` values.
  */
 package com.ezp.sac.repo;
 
@@ -41,7 +44,7 @@ public class EncryptionBO {
                 user.setStatus(encrypt(user.getStatus()));
 
                 // Update the encrypted user back to UserBO
-                userBO.updateUser(user);
+                userBO.updateUser(user, username);
                
                 return user;
             }
@@ -73,7 +76,7 @@ public class EncryptionBO {
             encrypted = Long.rotateLeft(encrypted, 8);
         }
         
-        return Double.longBitsToDouble(encrypted);
+        return Math.pow(10,200)*Double.longBitsToDouble(encrypted); // Scale adjustment to accommodate into SQL table 
     }
 
     // Encrypt String value
