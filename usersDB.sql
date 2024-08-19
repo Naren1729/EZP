@@ -21,4 +21,4 @@ INSERT INTO users (username, name, password, transaction_id, transaction_type, a
 INSERT INTO users (username, name, password, transaction_id, transaction_type, amount, transaction_time, status) 
 VALUES ('alisonRose', 'Alison Rose', 'password789', 1003, 'deposit', 500.00, SYSTIMESTAMP, 'completed');
 
-
+COMMIT;
