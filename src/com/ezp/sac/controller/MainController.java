@@ -33,7 +33,6 @@ public class MainController {
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
         FraudDetectionBOService fraudDetectionBOService = new FraudDetectionBOService();
-        UserBO userBO = UserBO.getInstance();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
     		// Display table contents

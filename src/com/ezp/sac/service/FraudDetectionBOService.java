@@ -22,10 +22,15 @@ public class FraudDetectionBOService {
 	// List to store usernames associated with suspicious activities
     private List<String> username;
     private final UserBO userBO;
-    private FraudDetectionBO fraudDetectionBO = new FraudDetectionBO();
+    private FraudDetectionBO fraudDetectionBO;
     
     public FraudDetectionBOService(){
     	userBO= UserBO.getInstance();
+    	fraudDetectionBO = new FraudDetectionBO();
+    }
+    public FraudDetectionBOService(FraudDetectionBO fraudDetectionBO) {
+    	this.userBO = UserBO.getInstance();
+		this.fraudDetectionBO = fraudDetectionBO;
     }
     // Getter method to retrieve the list of suspicious usernames
     public List<String> getUsername() {

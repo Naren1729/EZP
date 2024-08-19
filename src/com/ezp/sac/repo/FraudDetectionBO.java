@@ -15,8 +15,6 @@ import java.util.List;
 import com.ezp.sac.model.*;
 
 public class FraudDetectionBO {
-
-    
    
  // Instance of FraudDetectionSystem to manage the risk score and username tracking
     private FraudDetectionSystem fraudDetectionSystem = new FraudDetectionSystem();
