@@ -13,10 +13,7 @@
 package com.ezp.sac.test;
 
 import static org.junit.Assert.*;
-import com.ezp.sac.model.*;
-
-import com.ezp.sac.service.FraudDetectionService;
-import com.ezp.sac.repo.FraudDetectionBO;
+import com.ezp.sac.service.FraudDetectionBOService;
 import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.model.FraudDetectionSystem;
 import org.junit.After;
@@ -30,14 +27,14 @@ import java.util.List;
 
 public class FraudDetectionServiceTest {
 
-    private FraudDetectionBO fraudDetectionBO;
+    private FraudDetectionBOService fraudDetectionBOService;
     private FraudDetectionSystem fraudDetectionSystem;
     private UserBO userBO;
 
     @Before
     public void setUp() throws Exception {
         userBO = UserBO.getInstance();  // Create a UserBO instance
-        fraudDetectionBO = new FraudDetectionBO();  // Pass the UserBO instance to the service
+        fraudDetectionBOService = new FraudDetectionBOService();  // Pass the UserBO instance to the service
         fraudDetectionSystem = new FraudDetectionSystem();
     }
 
@@ -58,19 +55,19 @@ public class FraudDetectionServiceTest {
 
     @Test
     public void testDetectFraud() {
-        fraudDetectionBO.detectFraud("johnDoe");
+    	fraudDetectionBOService.detectFraud("johnDoe");
         assertTrue(fraudDetectionSystem.getRiskScore() == 0);
     }
 
     @Test
     public void testCalculateSimilarity() {
-    	fraudDetectionBO.flagTransactionUsername("activity1");
-        assertTrue(fraudDetectionBO.calculateSimilarity("activity1", "asdasdasd") < 1);
+    	fraudDetectionBOService.flagTransactionUsername("activity1");
+        assertTrue(fraudDetectionBOService.calculateSimilarity("activity1", "asdasdasd") < 1);
     }
     
     @Test
     public void checkPassword() {
-    	boolean isCorrect = fraudDetectionBO.checkPassword("password123");
+    	boolean isCorrect = fraudDetectionBOService.checkPassword("password123");
     	System.out.println(isCorrect);
     	//assertEquals("User [username=johnDoe, name=John Doe, password=password123, transaction_id=1001, type=deposit, amount=250.75, date=12-08-2024 23:22:01, status=completed]".substring(0, 90),user.toString().substring(0, 90));
     }

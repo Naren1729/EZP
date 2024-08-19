@@ -23,10 +23,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.ezp.sac.model.User;
-import com.ezp.sac.repo.FraudDetectionBO;
+import com.ezp.sac.service.*;
 import com.ezp.sac.repo.UserBO;
-import com.ezp.sac.service.EncryptionBOService;
-import com.ezp.sac.service.DecryptionBOService;
 
 public class MainController {
 
@@ -34,8 +32,8 @@ public class MainController {
         // Initialize the services
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
+        FraudDetectionBOService fraudDetectionBOService = new FraudDetectionBOService();
         UserBO userBO = UserBO.getInstance();
-        FraudDetectionBO fraudDetectionBO = new FraudDetectionBO();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
     		// Display table contents
@@ -64,7 +62,7 @@ public class MainController {
                 // Handle the user's choice
                 switch (choice) {
                     case "1":
-                        handleEncryption(encryptionBOService, decryptionBOService, reader, fraudDetectionBO);
+                        handleEncryption(encryptionBOService, decryptionBOService, reader, fraudDetectionBOService);
                         break;
 
                     default:
@@ -86,31 +84,31 @@ public class MainController {
      * @throws IOException           In case of an input/output error.
      */
     
-    private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionBO fraudDetectionBO) throws IOException {
+    private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionBOService fraudDetectionBOService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
-        int loop = 3;
 
         // Prompt for the username to view transactions
         System.out.print("\nEnter the username of the user you want to see the Transactions for: ");
         String username = reader.readLine();
         
         
-		boolean isCorrectUsername = fraudDetectionBO.checkUsername(username);
+		boolean isCorrectUsername = fraudDetectionBOService.checkUsername(username);
         if(isCorrectUsername==false) {
-        	fraudDetectionBO.flagTransactionUsername(username);
+        	fraudDetectionBOService.flagTransactionUsername(username);
         	return;
         }
+        
      // Prompt for the password to view transactions
         System.out.println("Enter the password of the user you want to see the Transactions for: ");
         String password = reader.readLine();
-        boolean isCorrectPassword = fraudDetectionBO.checkPassword(password);
+        boolean isCorrectPassword = fraudDetectionBOService.checkPassword(password);
         
         if(isCorrectPassword==false) {
         	int count = 2;
         	while(count>=0 && isCorrectPassword==false) {
         		System.out.println("The password is incorrect please try again: ");
         		password = reader.readLine();
-                isCorrectPassword = fraudDetectionBO.checkPassword(password);
+                isCorrectPassword = fraudDetectionBOService.checkPassword(password);
                 count--;
         	}
         }
