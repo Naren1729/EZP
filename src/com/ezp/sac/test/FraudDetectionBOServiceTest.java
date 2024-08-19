@@ -96,29 +96,29 @@ class FraudDetectionBOServiceTest {
     // Test method for calculateSimilarity() functionality
     @Test
     void testCalculateSimilarity() {
-        String str1 = "abc";
-        String str2 = "abc";
+        String string1 = "abc";
+        String string2 = "abc";
         double expectedSimilarity = 1.0;
         
-        String str3 = "def";
-        String str4 = "ghi";
+        String string3 = "def";
+        String string4 = "ghi";
         double expectedSimilarity2 = 0.0;
 
         // Mocking the calculateSimilarity() method for different pairs of strings
-        when(fraudDetectionBOMock.calculateSimilarity(str1, str2)).thenReturn(expectedSimilarity);
-        when(fraudDetectionBOMock.calculateSimilarity(str3, str4)).thenReturn(expectedSimilarity2);
+        when(fraudDetectionBOMock.calculateSimilarity(string1, string2)).thenReturn(expectedSimilarity);
+        when(fraudDetectionBOMock.calculateSimilarity(string3, string4)).thenReturn(expectedSimilarity2);
         
         // Calling the service method and verifying the results
-        double similarity = fraudDetectionBOService.calculateSimilarity(str1, str2);
-        double similarity2 = fraudDetectionBOService.calculateSimilarity(str3, str4);
+        double similarity = fraudDetectionBOService.calculateSimilarity(string1, string2);
+        double similarity2 = fraudDetectionBOService.calculateSimilarity(string3, string4);
         
         // Asserting the expected outcomes
         assertEquals(expectedSimilarity, similarity, "Similarity should be 1.0 for identical strings");
         assertEquals(expectedSimilarity2, similarity2, "Similarity should be 0.0 for non-identical strings");
         
         // Verifying that the mock was interacted with as expected
-        verify(fraudDetectionBOMock).calculateSimilarity(str1, str2);
-        verify(fraudDetectionBOMock).calculateSimilarity(str3, str4);
+        verify(fraudDetectionBOMock).calculateSimilarity(string1, string2);
+        verify(fraudDetectionBOMock).calculateSimilarity(string3, string4);
     }
 
     // Test method for detectFraud() functionality

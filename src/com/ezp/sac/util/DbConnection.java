@@ -32,7 +32,7 @@ public class DbConnection {
 			// JDBC connection details
 			final String url = "jdbc:oracle:thin:@localhost:1521:xe"; // Replace with your DB URL
 			final String username = "system"; // Replace with your DB username
-			final String password = "natwest123"; // Replace with your DB password
+			final String password = "naren"; // Replace with your DB password
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			// Creating object of Property class
 			Properties prop = new Properties();
