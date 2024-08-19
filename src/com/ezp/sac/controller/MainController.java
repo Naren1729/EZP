@@ -1,5 +1,5 @@
 /**
- * @Authors : Keerthana B, Bhavansh, Naren Sri Sai, Arvind
+ * @Authors : Keerthana B, Bhavansh, Mayuri, Naren Sri Sai, Arvind
  * @Date : 19/08/2024
  * 
  * @Description:
@@ -23,10 +23,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.ezp.sac.model.User;
+import com.ezp.sac.repo.FraudDetectionBO;
 import com.ezp.sac.repo.UserBO;
 import com.ezp.sac.service.EncryptionBOService;
 import com.ezp.sac.service.DecryptionBOService;
-import com.ezp.sac.service.FraudDetectionService;
 
 public class MainController {
 
@@ -35,7 +35,7 @@ public class MainController {
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
         UserBO userBO = UserBO.getInstance();
-        FraudDetectionService fraudDetectionService = new FraudDetectionService();
+        FraudDetectionBO fraudDetectionBO = new FraudDetectionBO();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
     		// Display table contents
@@ -64,7 +64,7 @@ public class MainController {
                 // Handle the user's choice
                 switch (choice) {
                     case "1":
-                        handleEncryption(encryptionBOService, decryptionBOService, reader, fraudDetectionService);
+                        handleEncryption(encryptionBOService, decryptionBOService, reader, fraudDetectionBO);
                         break;
 
                     default:
@@ -86,7 +86,7 @@ public class MainController {
      * @throws IOException           In case of an input/output error.
      */
     
-    private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
+    private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionBO fraudDetectionBO) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
         int loop = 3;
 
@@ -95,22 +95,22 @@ public class MainController {
         String username = reader.readLine();
         
         
-        boolean isCorrectUsername = fraudDetectionService.checkUsername(username);
+		boolean isCorrectUsername = fraudDetectionBO.checkUsername(username);
         if(isCorrectUsername==false) {
-        	fraudDetectionService.flagTransactionUsername(username);
+        	fraudDetectionBO.flagTransactionUsername(username);
         	return;
         }
      // Prompt for the password to view transactions
         System.out.println("Enter the password of the user you want to see the Transactions for: ");
         String password = reader.readLine();
-        boolean isCorrectPassword = fraudDetectionService.checkPassword(password);
+        boolean isCorrectPassword = fraudDetectionBO.checkPassword(password);
         
         if(isCorrectPassword==false) {
         	int count = 2;
         	while(count>=0 && isCorrectPassword==false) {
         		System.out.println("The password is incorrect please try again: ");
         		password = reader.readLine();
-                isCorrectPassword = fraudDetectionService.checkPassword(password);
+                isCorrectPassword = fraudDetectionBO.checkPassword(password);
                 count--;
         	}
         }

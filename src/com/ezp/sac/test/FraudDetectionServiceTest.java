@@ -30,14 +30,14 @@ import java.util.List;
 
 public class FraudDetectionServiceTest {
 
-    private FraudDetectionService fraudDetectionService;
+    private FraudDetectionBO fraudDetectionBO;
     private FraudDetectionSystem fraudDetectionSystem;
     private UserBO userBO;
 
     @Before
     public void setUp() throws Exception {
         userBO = UserBO.getInstance();  // Create a UserBO instance
-        fraudDetectionService = new FraudDetectionService();  // Pass the UserBO instance to the service
+        fraudDetectionBO = new FraudDetectionBO();  // Pass the UserBO instance to the service
         fraudDetectionSystem = new FraudDetectionSystem();
     }
 
@@ -58,19 +58,19 @@ public class FraudDetectionServiceTest {
 
     @Test
     public void testDetectFraud() {
-        fraudDetectionService.detectFraud("johnDoe");
+        fraudDetectionBO.detectFraud("johnDoe");
         assertTrue(fraudDetectionSystem.getRiskScore() == 0);
     }
 
     @Test
     public void testCalculateSimilarity() {
-        fraudDetectionService.flagTransactionUsername("activity1");
-        assertTrue(fraudDetectionService.calculateSimilarity("activity1", "asdasdasd") < 1);
+    	fraudDetectionBO.flagTransactionUsername("activity1");
+        assertTrue(fraudDetectionBO.calculateSimilarity("activity1", "asdasdasd") < 1);
     }
     
     @Test
     public void checkPassword() {
-    	boolean isCorrect = fraudDetectionService.checkPassword("password123");
+    	boolean isCorrect = fraudDetectionBO.checkPassword("password123");
     	System.out.println(isCorrect);
     	//assertEquals("User [username=johnDoe, name=John Doe, password=password123, transaction_id=1001, type=deposit, amount=250.75, date=12-08-2024 23:22:01, status=completed]".substring(0, 90),user.toString().substring(0, 90));
     }
