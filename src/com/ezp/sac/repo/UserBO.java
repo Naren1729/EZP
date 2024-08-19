@@ -12,14 +12,15 @@
 
 package com.ezp.sac.repo;
 
-import java.time.LocalDateTime;
-
 import com.ezp.sac.model.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import com.ezp.sac.util.DbConnection;
@@ -43,116 +44,153 @@ public class UserBO {
         return instance;
     } 
     
+  public List<User> getAllUsers(){
+	List<User> users = new ArrayList<>();
+	try(Connection conn = DbConnection.getConnection();
+			PreparedStatement pst = conn.prepareStatement("select * from users"); //SELECT all users from table
+			ResultSet rs = pst.executeQuery()){
+		while(rs.next()) { //get result set from the query 
+			String username = rs.getString("username");
+            String name = rs.getString("name");
+            String password = rs.getString("password");
+            long transactionId = rs.getLong("transaction_id");
+            String transactionType = rs.getString("transaction_type");
+            double amount = rs.getDouble("amount");
+            LocalDateTime transactionTime = rs.getTimestamp("transaction_time").toLocalDateTime();
+            String status = rs.getString("status");
+            
+            User user = new User(username,name,password,transactionId,transactionType,amount,transactionTime,status); 
+            users.add(user); //adding existing user to the new arrayList
+		}
+	}catch (SQLException e) {
+        e.printStackTrace();
+    }
+	return users;
+}
     
 	// Method to initialize the table of dummy users with predefined data
     // Using PreparedStatement for accessing users table contents
 	private void initializeDatabaseTable() {
-		// Using try-with to enable auto-close of connection and preparedStatement
-		try (Connection connection = DbConnection.getConnection(); 
-				PreparedStatement preparedStatementDelete = connection.prepareStatement("DELETE FROM users"); // Delete if any records present : PreparedStatement creation
-				PreparedStatement preparedStatementInsert = connection
-						.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) { // Add new entries / dummy users into table : : PreparedStatement creation
-			if (!initialized) {
-	            System.out.println("Created table in given database...");
-				System.out.println("Entering records into user table using JDBC and SQL!!!");
+//		// Using try-with to enable auto-close of connection and preparedStatement
+//		try (Connection connection = DbConnection.getConnection(); 
+//				PreparedStatement preparedStatementDelete = connection.prepareStatement("DELETE FROM users"); // Delete if any records present : PreparedStatement creation
+//				PreparedStatement preparedStatementInsert = connection
+//						.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) { // Add new entries / dummy users into table : : PreparedStatement creation
+//			if (!initialized) {
+//	            System.out.println("Created table in given database...");
+//				System.out.println("Entering records into user table using JDBC and SQL!!!");
+//
+//				// Delete if any records present : PreparedStatement execution
+//				preparedStatementDelete.executeQuery();
+//
+//				// Add new entries / dummy users into table : PreparedStatement execution
+//				preparedStatementInsert.setString(1, "johnDoe");
+//				preparedStatementInsert.setString(2, "John Doe");
+//				preparedStatementInsert.setString(3, "password123");
+//				preparedStatementInsert.setLong(4, 1001L);
+//				preparedStatementInsert.setString(5, "deposit");
+//				preparedStatementInsert.setDouble(6, 250.75);
+//				// Converting LocalDateTime type of class attribute to Timestamp type of table
+//				// attribute
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "completed");
+//				preparedStatementInsert.addBatch(); // Adding next record
+//
+//				preparedStatementInsert.setString(1, "janeSmith");
+//				preparedStatementInsert.setString(2, "Jane Smith");
+//				preparedStatementInsert.setString(3, "password456");
+//				preparedStatementInsert.setLong(4, 1002L);
+//				preparedStatementInsert.setString(5, "withdrawal");
+//				preparedStatementInsert.setDouble(6, 100.50);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "pending");
+//				preparedStatementInsert.addBatch();
+//
+//				preparedStatementInsert.setString(1, "aliceJones");
+//				preparedStatementInsert.setString(2, "Alice Jones");
+//				preparedStatementInsert.setString(3, "password789");
+//				preparedStatementInsert.setLong(4, 1003L);
+//				preparedStatementInsert.setString(5, "deposit");
+//				preparedStatementInsert.setDouble(6, 500.00);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "completed");
+//				preparedStatementInsert.addBatch();
+//
+//				preparedStatementInsert.setString(1, "bobBrown");
+//				preparedStatementInsert.setString(2, "Bob Brown");
+//				preparedStatementInsert.setString(3, "password012");
+//				preparedStatementInsert.setLong(4, 1004L);
+//				preparedStatementInsert.setString(5, "transfer");
+//				preparedStatementInsert.setDouble(6, 150.25);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "failed");
+//				preparedStatementInsert.addBatch();
+//
+//				preparedStatementInsert.setString(1, "carolWhite");
+//				preparedStatementInsert.setString(2, "Carol White");
+//				preparedStatementInsert.setString(3, "password345");
+//				preparedStatementInsert.setLong(4, 1005L);
+//				preparedStatementInsert.setString(5, "deposit");
+//				preparedStatementInsert.setDouble(6, 75.00);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "completed");
+//				preparedStatementInsert.addBatch();
+//
+//				preparedStatementInsert.setString(1, "keerthanaB");
+//				preparedStatementInsert.setString(2, "Keerthana B");
+//				preparedStatementInsert.setString(3, "password123");
+//				preparedStatementInsert.setLong(4, 1001L);
+//				preparedStatementInsert.setString(5, "deposit");
+//				preparedStatementInsert.setDouble(6, 250.75);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "completed");
+//				preparedStatementInsert.addBatch();
+//
+//				preparedStatementInsert.setString(1, "bhavanshG");
+//				preparedStatementInsert.setString(2, "Bhavansh G");
+//				preparedStatementInsert.setString(3, "password456");
+//				preparedStatementInsert.setLong(4, 1002L);
+//				preparedStatementInsert.setString(5, "withdrawal");
+//				preparedStatementInsert.setDouble(6, 100.50);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "pending");
+//				preparedStatementInsert.addBatch();
+//
+//				preparedStatementInsert.setString(1, "alisonRose");
+//				preparedStatementInsert.setString(2, "Alison Rose");
+//				preparedStatementInsert.setString(3, "password789");
+//				preparedStatementInsert.setLong(4, 1003L);
+//				preparedStatementInsert.setString(5, "deposit");
+//				preparedStatementInsert.setDouble(6, 500.00);
+//				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//				preparedStatementInsert.setString(8, "completed");
+//				int res[] = preparedStatementInsert.executeBatch(); // Executing insert query in a batch
+//				for (int i : res) { // Checking if inserted properly
+//					if (i > 0)
+//						continue;
+//					else
+//						connection.rollback();
+//				}
+//				connection.commit(); // Committing changes made
+//				initialized = true;
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+		try (Connection connection = DbConnection.getConnection()) { 
+		    if (!initialized) {
+		        System.out.println("Created table in given database...");
 
-				// Delete if any records present : PreparedStatement execution
-				preparedStatementDelete.executeQuery();
+		        // No need to delete records, as the table is already created
 
-				// Add new entries / dummy users into table : PreparedStatement execution
-				preparedStatementInsert.setString(1, "johnDoe");
-				preparedStatementInsert.setString(2, "John Doe");
-				preparedStatementInsert.setString(3, "password123");
-				preparedStatementInsert.setLong(4, 1001L);
-				preparedStatementInsert.setString(5, "deposit");
-				preparedStatementInsert.setDouble(6, 250.75);
-				// Converting LocalDateTime type of class attribute to Timestamp type of table
-				// attribute
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "completed");
-				preparedStatementInsert.addBatch(); // Adding next record
-
-				preparedStatementInsert.setString(1, "janeSmith");
-				preparedStatementInsert.setString(2, "Jane Smith");
-				preparedStatementInsert.setString(3, "password456");
-				preparedStatementInsert.setLong(4, 1002L);
-				preparedStatementInsert.setString(5, "withdrawal");
-				preparedStatementInsert.setDouble(6, 100.50);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "pending");
-				preparedStatementInsert.addBatch();
-
-				preparedStatementInsert.setString(1, "aliceJones");
-				preparedStatementInsert.setString(2, "Alice Jones");
-				preparedStatementInsert.setString(3, "password789");
-				preparedStatementInsert.setLong(4, 1003L);
-				preparedStatementInsert.setString(5, "deposit");
-				preparedStatementInsert.setDouble(6, 500.00);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "completed");
-				preparedStatementInsert.addBatch();
-
-				preparedStatementInsert.setString(1, "bobBrown");
-				preparedStatementInsert.setString(2, "Bob Brown");
-				preparedStatementInsert.setString(3, "password012");
-				preparedStatementInsert.setLong(4, 1004L);
-				preparedStatementInsert.setString(5, "transfer");
-				preparedStatementInsert.setDouble(6, 150.25);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "failed");
-				preparedStatementInsert.addBatch();
-
-				preparedStatementInsert.setString(1, "carolWhite");
-				preparedStatementInsert.setString(2, "Carol White");
-				preparedStatementInsert.setString(3, "password345");
-				preparedStatementInsert.setLong(4, 1005L);
-				preparedStatementInsert.setString(5, "deposit");
-				preparedStatementInsert.setDouble(6, 75.00);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "completed");
-				preparedStatementInsert.addBatch();
-
-				preparedStatementInsert.setString(1, "keerthanaB");
-				preparedStatementInsert.setString(2, "Keerthana B");
-				preparedStatementInsert.setString(3, "password123");
-				preparedStatementInsert.setLong(4, 1001L);
-				preparedStatementInsert.setString(5, "deposit");
-				preparedStatementInsert.setDouble(6, 250.75);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "completed");
-				preparedStatementInsert.addBatch();
-
-				preparedStatementInsert.setString(1, "bhavanshG");
-				preparedStatementInsert.setString(2, "Bhavansh G");
-				preparedStatementInsert.setString(3, "password456");
-				preparedStatementInsert.setLong(4, 1002L);
-				preparedStatementInsert.setString(5, "withdrawal");
-				preparedStatementInsert.setDouble(6, 100.50);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "pending");
-				preparedStatementInsert.addBatch();
-
-				preparedStatementInsert.setString(1, "alisonRose");
-				preparedStatementInsert.setString(2, "Alison Rose");
-				preparedStatementInsert.setString(3, "password789");
-				preparedStatementInsert.setLong(4, 1003L);
-				preparedStatementInsert.setString(5, "deposit");
-				preparedStatementInsert.setDouble(6, 500.00);
-				preparedStatementInsert.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-				preparedStatementInsert.setString(8, "completed");
-				int res[] = preparedStatementInsert.executeBatch(); // Executing insert query in a batch
-				for (int i : res) { // Checking if inserted properly
-					if (i > 0)
-						continue;
-					else
-						connection.rollback();
-				}
-				connection.commit(); // Committing changes made
-				initialized = true;
-			}
+		        connection.commit(); // Committing changes made
+		        initialized = true;
+		    }
 		} catch (SQLException e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
+		    
 		
 		return;
 
@@ -248,3 +286,8 @@ public class UserBO {
 	}
     
 }
+    
+
+
+    
+	

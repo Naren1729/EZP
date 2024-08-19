@@ -29,7 +29,7 @@ public class FraudDetectionService {
     private EncryptionBO encryptionBO = new EncryptionBO(userBO.getInstance());
 
     // Constructor to initialize the FraudDetectionService with a UserBO instance
-    public FraudDetectionService(UserBO userBO) {
+    public FraudDetectionService() {
         this.userBO = userBO.getInstance();
     }
 
@@ -72,7 +72,7 @@ public class FraudDetectionService {
      * 
      * @param transaction The transaction string to be flagged if risky.
      */
-    public void flagTransaction(String transaction) {
+    public void flagTransactionUsername(String transaction) {
         // Detect fraud by calculating the similarity and setting the risk score
         detectFraud(transaction);
 
@@ -119,32 +119,23 @@ public class FraudDetectionService {
      * @param encryption Indicates if the password should be encrypted before comparison.
      * @return The User object if the password is correct, otherwise null.
      */
-    public User checkPassword(String username, String password, boolean encryption) {
-        String new_username = encryptionBO.encrypt(username);
-        
-        if (encryption) {
-            User temporaryUser = userBO.getUserByUsername(new_username);
-            String new_password = encryptionBO.encrypt(password);
-            if (temporaryUser != null) {
-                if (temporaryUser.getPassword().equals(new_password)) {
-                    return temporaryUser;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        } else {
-            User temporaryUser = userBO.getUserByUsername(username);
-            if (temporaryUser != null) {
-                if (temporaryUser.getPassword().equals(password)) {
-                    return temporaryUser;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
+    public boolean checkUsername(String username) {
+        List<User> users = userBO.getAllUsers();
+        for(User user: users) {
+        	if(user.getUsername().equals(username)) {
+        		return true;
+        	}
         }
+        return false;
+    }
+    
+    public boolean checkPassword(String password) {
+    	List<User> users = userBO.getAllUsers();
+    	for(User user: users) {
+    		if(user.getPassword().equals(password)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 }
