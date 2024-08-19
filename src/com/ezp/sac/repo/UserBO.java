@@ -18,6 +18,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import com.ezp.sac.util.DbConnection;
@@ -41,6 +44,29 @@ public class UserBO {
         return instance;
     } 
     
+  public List<User> getAllUsers(){
+	List<User> users = new ArrayList<>();
+	try(Connection conn = DbConnection.getConnection();
+			PreparedStatement pst = conn.prepareStatement("select * from users"); //SELECT all users from table
+			ResultSet rs = pst.executeQuery()){
+		while(rs.next()) { //get result set from the query 
+			String username = rs.getString("username");
+            String name = rs.getString("name");
+            String password = rs.getString("password");
+            long transactionId = rs.getLong("transaction_id");
+            String transactionType = rs.getString("transaction_type");
+            double amount = rs.getDouble("amount");
+            LocalDateTime transactionTime = rs.getTimestamp("transaction_time").toLocalDateTime();
+            String status = rs.getString("status");
+            
+            User user = new User(username,name,password,transactionId,transactionType,amount,transactionTime,status); 
+            users.add(user); //adding existing user to the new arrayList
+		}
+	}catch (SQLException e) {
+        e.printStackTrace();
+    }
+	return users;
+}
     
 	// Method to initialize the table of dummy users with predefined data
     // Using PreparedStatement for accessing users table contents
@@ -260,3 +286,8 @@ public class UserBO {
 	}
     
 }
+    
+
+
+    
+	

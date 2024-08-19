@@ -35,7 +35,7 @@ public class MainController {
         EncryptionBOService encryptionBOService = new EncryptionBOService();
         DecryptionBOService decryptionBOService = new DecryptionBOService();
         UserBO userBO = UserBO.getInstance();
-        FraudDetectionService fraudDetectionService = new FraudDetectionService(userBO);
+        FraudDetectionService fraudDetectionService = new FraudDetectionService();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
     		// Display table contents
@@ -88,30 +88,56 @@ public class MainController {
     
     private static void handleEncryption(EncryptionBOService encryptionBOService, DecryptionBOService decryptionBOService, BufferedReader reader, FraudDetectionService fraudDetectionService) throws IOException {
         String encryptionAlgorithm = "Vernam Cipher";
+        int loop = 3;
 
         // Prompt for the username to view transactions
         System.out.print("\nEnter the username of the user you want to see the Transactions for: ");
         String username = reader.readLine();
-
-        // Encrypt the user's data
-        User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
-        // Displaying encrypted record
-        if (encryptedUser != null) {
-            System.out.println("\nEncrypted User: " + encryptedUser);
-            
-            // Decrypt the user's data
-            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
-            
-            // Displaying decrypted record
-            if (decryptedUser != null) {
-                System.out.println("Decrypted User: " + decryptedUser);
-            } else {
-                System.out.println("Decryption failed.");
-            }
-
-        } else {
-            System.out.println("Invalid username.");
+        
+        
+        boolean isCorrectUsername = fraudDetectionService.checkUsername(username);
+        if(isCorrectUsername==false) {
+        	fraudDetectionService.flagTransactionUsername(username);
+        	return;
         }
-
+     // Prompt for the password to view transactions
+        System.out.println("Enter the password of the user you want to see the Transactions for: ");
+        String password = reader.readLine();
+        boolean isCorrectPassword = fraudDetectionService.checkPassword(password);
+        
+        if(isCorrectPassword==false) {
+        	int count = 2;
+        	while(count>=0 && isCorrectPassword==false) {
+        		System.out.println("The password is incorrect please try again: ");
+        		password = reader.readLine();
+                isCorrectPassword = fraudDetectionService.checkPassword(password);
+                count--;
+        	}
+        }
+       
+        if(isCorrectUsername && isCorrectPassword) {
+	        // Encrypt the user's data
+	        User encryptedUser = encryptionBOService.encryptUserData(encryptionAlgorithm, username);
+	        // Displaying encrypted record
+	        if (encryptedUser != null) {
+	            System.out.println("\nEncrypted User: " + encryptedUser);
+	            
+	            // Decrypt the user's data
+	            User decryptedUser = decryptionBOService.decryptUserData(encryptionAlgorithm, encryptedUser.getUsername());
+	            
+	            // Displaying decrypted record
+	            if (decryptedUser != null) {
+	                System.out.println("Decrypted User: " + decryptedUser);
+	            } else {
+	                System.out.println("Decryption failed.");
+	            }
+	
+	        } else {
+	            System.out.println("Invalid username or password");
+	        }
+        }
+        else {
+        	System.out.println("Either username or password is incorrect");
+        }
     }
 }
