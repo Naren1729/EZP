@@ -49,8 +49,8 @@ public class FraudDetectionBOService {
     }
     
   //Method for checking password
-    public boolean checkPassword(String password) {
-    	boolean passwordExist = fraudDetectionBO.checkPassword(password);
+    public boolean checkPassword(String username,String password) {
+    	boolean passwordExist = fraudDetectionBO.checkPassword(username,password);
     	return passwordExist;
     }
     

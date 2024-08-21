@@ -1,6 +1,6 @@
 /**
- * @Author: Keerthana
- * @Date : 11/08/2024
+ * @Author: Keerthana,Arvind
+ * @Date : 20/08/2024
  * 
  * @Description:
  * The EncryptionBOServiceTest class is a unit test class for testing the functionality of
@@ -12,7 +12,8 @@
 package com.ezp.sac.test;
 
 import com.ezp.sac.service.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,64 +22,64 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EncryptionBOServiceTest {
-	static private EncryptionBOService encryptionServiceTestObject;
-	String encryptionAlgorithm;
+    static private EncryptionBOService encryptionServiceTestObject;
+    static private DecryptionBOService decryptionServiceTestObject;
+    static String encryptionAlgorithm;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		encryptionServiceTestObject = new EncryptionBOService();
-	}
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        encryptionServiceTestObject = new EncryptionBOService();
+        decryptionServiceTestObject = new DecryptionBOService();
+    }
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		encryptionServiceTestObject = null;
-	}
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        decryptionServiceTestObject.decryptUserData("Vernam Cipher", "ISoxJQE2Lg==");
+        decryptionServiceTestObject.decryptUserData("Vernam Cipher", "ISQ3LhY0IjEx");
+        decryptionServiceTestObject.decryptUserData("Vernam Cipher", "KikwKCATJCs8OA==");
+        decryptionServiceTestObject.decryptUserData("Vernam Cipher", "KCQrJCkOIywtLg==");
+        encryptionServiceTestObject = null;
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		encryptionAlgorithm = "Vernam Cipher";
-	}
+    @Before
+    public void setUp() throws Exception {
+        encryptionAlgorithm = "Vernam Cipher";
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		encryptionAlgorithm = "";
-	}
+    @After
+    public void tearDown() throws Exception {
+        encryptionAlgorithm = "";
+    }
 
-	@Test
-	public void testEncryptionBOService() {
-		assertNotNull("The service package class object is not null", encryptionServiceTestObject);
-	}
+    @Test
+    public void testEncryptionBOService() {
+        assertThat("The service package class object is not null", encryptionServiceTestObject, is(notNullValue()));
+    }
 
-	@Test
-	public void testEncryptUserData() {
-		// Test to check if correct input returns a non-null value
-		assertNotNull(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "johnDoe"));
-		assertNotNull(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "janeSmith"));
+    @Test
+    public void testEncryptUserData() {
+        // Test to check if correct input returns a non-null value
+        assertThat(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "johnDoe", false), is(notNullValue()));
+        assertThat(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "janeSmith", false), is(notNullValue()));
 
-		// Test to check if incorrect input returns a null value
-		assertNull(encryptionServiceTestObject.encryptUserData("Ceaser Cipher", "bobBrown")); // Incorrect encryption algorithm
-		assertNull(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "Keerthana")); // No such username found in the database
-		assertNull(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "johnDOE")); // Incorrect case for username
+        // Test to check if incorrect input returns a null value
+        assertThat(encryptionServiceTestObject.encryptUserData("Ceaser Cipher", "bobBrown", false), is(nullValue())); // Incorrect encryption algorithm
+        assertThat(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "Keerthana", false), is(nullValue())); // No such username found in the database
+        assertThat(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "johnDOE", false), is(nullValue())); // Incorrect case for username
 
-		// Test to verify that the encryption produces the expected output
-		// Correct input -> correct output
-		assertEquals(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "aliceJones").toString().substring(0, 140),
-				"User [username=KikwKCATJCs8OA==, name=CikwKCB5ASo3LjY=, password=OyQqODI2OSFuc3w=, transaction_id=15573801216, type=LyApJDYwPw==, amount=6.218451877E-315, date=10-08-2024 17:19:40, status=KCo0Oyk8PyA9]"
-						.substring(0, 140));
+        // Test to verify that the encryption produces the expected output
+        // Correct input -> correct output
+        assertThat(
+            encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "aliceJones", false).toString().substring(0, 140),
+            equalTo("User [username=KikwKCATJCs8OA==, name=CikwKCB5ASo3LjY=, password=OyQqODI2OSFuc3w=, transaction_id=15573801216, type=LyApJDYwPw==, amount=6.2184518770599045E-115, date=20-08-2024 15:49:34, status=KCo0Oyk8PyA9]"
+                    .substring(0, 140))
+        );
 
-		// Incorrect input -> correct output
-		assertNotEquals(encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "carolWhite").toString().substring(0, 140),
-				"User [username=XYZ7CTc2PCs=, name=CSo7awcrJDI3, password=OyQqODI2OSFpenc=, transaction_id=15691241728, type=Pzc4JTY/Ljc=, amount=6.21847911E-315, date=10-08-2024 17:08:14, status=LSQwJyA9]"
-						.substring(0, 140));
-
-	}
-
-	@Test
-	public void testGetAllUsers() {
-		// Test to check if the user list is non-empty
-	//	assertTrue(encryptionServiceTestObject.getAllUsers().size() > 0);
-		// Test to verify that the total number of users is five
-	//	assertEquals(8, encryptionServiceTestObject.getAllUsers().size());
-	}
-
+        // Incorrect input -> correct output
+        assertThat(
+            encryptionServiceTestObject.encryptUserData(encryptionAlgorithm, "carolWhite", false).toString().substring(0, 140),
+            not(equalTo("User User [username=KCQrJCkOIywtLg==, name=CCQrJCl5HC0wPyA=, password=OyQqODI2OSFqf3A=, transaction_id=15674464512, type=LyApJDYwPw==, amount=6.218418359646491E-115, date=20-08-2024 15:49:34, status=KCo0Oyk8PyA9]"
+                        .substring(0, 140)))
+        );
+    }
 }

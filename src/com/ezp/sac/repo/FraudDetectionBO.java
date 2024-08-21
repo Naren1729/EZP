@@ -126,10 +126,10 @@ public class FraudDetectionBO {
         return false;
     }
     
-    public boolean checkPassword(String password) {
-    	List<User> users = userBO.getAllUsers();
-    	for(User user: users) {
-    		if(user.getPassword().equals(password)) {
+    public boolean checkPassword(String username,String password) {
+    	User users = userBO.getUserByUsername(username);
+    	if(users!=null){
+    		if(users.getPassword().equals(password)) {
     			return true;
     		}
     	}

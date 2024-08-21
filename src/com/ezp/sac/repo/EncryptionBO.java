@@ -44,7 +44,30 @@ public class EncryptionBO {
                 user.setStatus(encrypt(user.getStatus()));
 
                 // Update the encrypted user back to UserBO
-                userBO.updateUser(user, username);
+               userBO.updateUser(user, username);
+                return user;
+            }
+        }
+        return null; // Return null if encryption fails
+    }
+    public User encryptUserData(String encryptionAlgorithm, String username,boolean up) {
+        if (this.encryptionAlgorithm.equals(encryptionAlgorithm)) {
+            User user = userBO.getUserByUsername(username);
+            if (user != null) {
+                // Encrypt each field of the user object
+                user.setUsername(encrypt(user.getUsername()));
+                user.setName(encrypt(user.getName()));
+                user.setPassword(encrypt(user.getPassword()));
+                user.setTransaction_id(encryptLong(user.getTransaction_id())); 
+                user.setType(encrypt(user.getType()));
+                user.setAmount(encryptDouble(user.getAmount())); // Encrypt the amount
+                user.setDate(user.getDate()); // Date is not encrypted
+                user.setStatus(encrypt(user.getStatus()));
+                if(up) {
+                	// Update the encrypted user back to UserBO
+                	userBO.updateUser(user, username);
+                }
+                
                
                 return user;
             }

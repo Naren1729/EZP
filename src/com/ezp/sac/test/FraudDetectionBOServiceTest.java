@@ -73,24 +73,26 @@ class FraudDetectionBOServiceTest {
     // Test method for checkPassword() functionality
     @Test
     void testCheckPassword() {
+    	String username1 = "user1";
+        String username2 = "user2";
         String password1 = "secret1";
         String password2 = "secret2";
         
         // Mocking the behavior of checkPassword() method for different inputs
-        when(fraudDetectionBOMock.checkPassword(password1)).thenReturn(true);
-        when(fraudDetectionBOMock.checkPassword(password2)).thenReturn(false);
+        when(fraudDetectionBOMock.checkPassword(username1,password1)).thenReturn(true);
+        when(fraudDetectionBOMock.checkPassword(username2,password2)).thenReturn(false);
         
         // Calling the service method and verifying the results
-        boolean result1 = fraudDetectionBOService.checkPassword(password1);
-        boolean result2 = fraudDetectionBOService.checkPassword(password2);
+        boolean result1 = fraudDetectionBOService.checkPassword(username1,password1);
+        boolean result2 = fraudDetectionBOService.checkPassword(username2,password2);
         
         // Asserting the expected outcomes
         assertTrue(result1, "secret1 is mocked so it returns true");
         assertFalse(result2, "secret2 is mocked so it returns false");
         
         // Verifying that the mock was interacted with as expected
-        verify(fraudDetectionBOMock).checkPassword(password1);
-        verify(fraudDetectionBOMock).checkPassword(password2);
+        verify(fraudDetectionBOMock).checkPassword(username1,password1);
+        verify(fraudDetectionBOMock).checkPassword(username2,password2);
     }
 
     // Test method for calculateSimilarity() functionality

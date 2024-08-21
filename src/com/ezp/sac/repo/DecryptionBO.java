@@ -46,6 +46,29 @@ public class DecryptionBO {
         }
         return null; // Return null if the encryption algorithm does not match
     }
+    public User decryptUserData(String encryptionAlgorithm, String username,boolean up) {
+        if (this.encryptionAlgorithm.equals(encryptionAlgorithm)) {
+            User user = userBO.getUserByUsername(username);
+            if (user != null) {
+                // Decrypt each field of the user object
+                user.setUsername(decrypt(user.getUsername()));
+                user.setName(decrypt(user.getName()));
+                user.setPassword(decrypt(user.getPassword()));
+                user.setTransaction_id(decryptLong(user.getTransaction_id()));
+                user.setType(decrypt(user.getType()));
+                user.setAmount(decryptDouble(user.getAmount())); // Decrypt the amount
+                user.setDate(user.getDate()); // Date is not decrypted
+                user.setStatus(decrypt(user.getStatus()));
+                if(up) {
+                	userBO.updateUser(user,username);
+                }
+                
+
+                return user;
+            }
+        }
+        return null; // Return null if the encryption algorithm does not match
+    }
 
     // Decrypt Long value
     public Long decryptLong(Long val) {

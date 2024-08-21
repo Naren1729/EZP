@@ -100,14 +100,14 @@ public class MainController {
      // Prompt for the password to view transactions
         System.out.println("Enter the password of the user you want to see the Transactions for: ");
         String password = reader.readLine();
-        boolean isCorrectPassword = fraudDetectionBOService.checkPassword(password);
+        boolean isCorrectPassword = fraudDetectionBOService.checkPassword(username,password);
         
         if(isCorrectPassword==false) {
         	int count = 2;
         	while(count>=0 && isCorrectPassword==false) {
         		System.out.println("The password is incorrect please try again: ");
         		password = reader.readLine();
-                isCorrectPassword = fraudDetectionBOService.checkPassword(password);
+                isCorrectPassword = fraudDetectionBOService.checkPassword(username,password);
                 count--;
         	}
         }
@@ -125,6 +125,7 @@ public class MainController {
 	            // Displaying decrypted record
 	            if (decryptedUser != null) {
 	                System.out.println("Decrypted User: " + decryptedUser);
+	                
 	            } else {
 	                System.out.println("Decryption failed.");
 	            }

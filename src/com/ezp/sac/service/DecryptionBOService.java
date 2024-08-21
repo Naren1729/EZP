@@ -23,9 +23,19 @@ public class DecryptionBOService {
         userBO = UserBO.getInstance(); // Use singleton instance
         decryptionBO = new DecryptionBO(userBO); // Pass UserBO to DecryptionBO
     }
-
+    
+    public void update(User updatedUser,String username) {
+		userBO.updateUser(updatedUser, username);
+	}
     public User decryptUserData(String encryptionAlgorithm, String username) {
         User decryptedUser = decryptionBO.decryptUserData(encryptionAlgorithm, username);
+        if (decryptedUser != null) {
+            return decryptedUser; // Return the decrypted user if decryption is successful
+        }
+        return null; // Return null if decryption fails
+    }
+    public User decryptUserData(String encryptionAlgorithm, String username,boolean up) {
+        User decryptedUser = decryptionBO.decryptUserData(encryptionAlgorithm, username,up);
         if (decryptedUser != null) {
             return decryptedUser; // Return the decrypted user if decryption is successful
         }

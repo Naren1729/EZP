@@ -33,7 +33,17 @@ public class EncryptionBOService {
 
 		return null; // Return null if encryption fails
 	}
+	public User encryptUserData(String encryptionAlgorithm, String username,boolean up) {
+		User encryptedUser = encryptionBO.encryptUserData(encryptionAlgorithm, username,up);
+		if (encryptedUser != null) {
+			return encryptedUser; // Return the encrypted user if encryption is successful
+		}
 
+		return null; // Return null if encryption fails
+	}
+	public void update(User updatedUser,String username) {
+		userBO.updateUser(updatedUser, username);
+	}
 	// Method to display the table of all users
 	public void displayUserTable() {
 		userBO.displayUserTable();
