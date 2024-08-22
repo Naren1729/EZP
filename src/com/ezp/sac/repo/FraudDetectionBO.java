@@ -22,12 +22,9 @@ public class FraudDetectionBO {
     // UserBO is a singleton instance to interact with user data
     private static UserBO userBO;
 
-    // EncryptionBO is used to handle encryption operations
-    private EncryptionBO encryptionBO = new EncryptionBO(userBO.getInstance());
-
     // Constructor to initialize the FraudDetectionService with a UserBO instance
     public FraudDetectionBO() {
-        this.userBO = userBO.getInstance();
+        userBO = UserBO.getInstance();
     }
 
     // Gets the list of usernames from the FraudDetectionSystem

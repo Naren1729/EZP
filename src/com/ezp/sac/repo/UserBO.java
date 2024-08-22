@@ -47,17 +47,17 @@ public class UserBO {
   public List<User> getAllUsers(){
 	List<User> users = new ArrayList<>();
 	try(Connection conn = DbConnection.getConnection();
-			PreparedStatement pst = conn.prepareStatement("select * from users"); //SELECT all users from table
-			ResultSet rs = pst.executeQuery()){
-		while(rs.next()) { //get result set from the query 
-			String username = rs.getString("username");
-            String name = rs.getString("name");
-            String password = rs.getString("password");
-            long transactionId = rs.getLong("transaction_id");
-            String transactionType = rs.getString("transaction_type");
-            double amount = rs.getDouble("amount");
-            LocalDateTime transactionTime = rs.getTimestamp("transaction_time").toLocalDateTime();
-            String status = rs.getString("status");
+			PreparedStatement preparedStatement = conn.prepareStatement("select * from users"); //SELECT all users from table
+			ResultSet resultSet = preparedStatement.executeQuery()){
+		while(resultSet.next()) { //get result set from the query 
+			String username = resultSet.getString("username");
+            String name = resultSet.getString("name");
+            String password = resultSet.getString("password");
+            long transactionId = resultSet.getLong("transaction_id");
+            String transactionType = resultSet.getString("transaction_type");
+            double amount = resultSet.getDouble("amount");
+            LocalDateTime transactionTime = resultSet.getTimestamp("transaction_time").toLocalDateTime();
+            String status = resultSet.getString("status");
             
             User user = new User(username,name,password,transactionId,transactionType,amount,transactionTime,status); 
             users.add(user); //adding existing user to the new arrayList
