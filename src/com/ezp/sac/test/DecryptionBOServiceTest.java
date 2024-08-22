@@ -33,6 +33,7 @@ public class DecryptionBOServiceTest {
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
+    	decryptionServiceTestObject.decryptUserData("Vernam Cipher", "KSo7CTc2PCs=");
         decryptionServiceTestObject = null;
     }
 
