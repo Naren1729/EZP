@@ -19,5 +19,5 @@ INSERT INTO users (username, name, password, transaction_id, transaction_type, a
 INSERT INTO users (username, name, password, transaction_id, transaction_type, amount, transaction_time, status) VALUES ('keerthanaB', 'Keerthana B', 'password123', 1001, 'deposit', 250.75, SYSTIMESTAMP, 'completed');
 INSERT INTO users (username, name, password, transaction_id, transaction_type, amount, transaction_time, status) VALUES ('bhavanshG', 'Bhavansh G', 'password456', 1002, 'withdrawal', 100.50, SYSTIMESTAMP, 'pending');
 INSERT INTO users (username, name, password, transaction_id, transaction_type, amount, transaction_time, status) VALUES ('alisonRose', 'Alison Rose', 'password789', 1003, 'deposit', 500.00, SYSTIMESTAMP, 'completed');
-
+COMMIT;
 select * from users;
