@@ -21,7 +21,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
+
 import com.ezp.sac.Entity.TransactionDetails;
 import com.ezp.sac.Entity.User;
 import com.ezp.sac.repo.UserRepo;

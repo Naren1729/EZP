@@ -9,10 +9,7 @@
  * and a unique identifier for the fraudulent transaction.
  */
 
-
 package com.ezp.sac.Entity;
-
-import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 

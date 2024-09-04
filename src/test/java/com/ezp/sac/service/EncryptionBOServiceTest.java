@@ -29,7 +29,6 @@ import org.mockito.MockitoAnnotations;
 import com.ezp.sac.Entity.TransactionDetails;
 import com.ezp.sac.Entity.User;
 import com.ezp.sac.repo.UserRepo;
-import com.ezp.sac.service.EncryptionBOService;
 
 
 class EncryptionBOServiceTest {

@@ -9,16 +9,16 @@
 
 package com.ezp.sac.exception;
 
-public class InvalidUserbameOrPasswordException extends RuntimeException {
+public class InvalidUsernameOrPasswordException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
 //	Default constructor for InvalidUserbameOrPasswordException.
-	public InvalidUserbameOrPasswordException() {
+	public InvalidUsernameOrPasswordException() {
 	}
 
 //	Constructor for InvalidUserbameOrPasswordException with a custom message.
-	public InvalidUserbameOrPasswordException(String message) {
+	public InvalidUsernameOrPasswordException(String message) {
 		super(message);
 	}
 

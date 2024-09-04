@@ -1,4 +1,5 @@
 /**
+ *  * @author: Naren, Keerthana B
  * UserRepo is a repository interface for managing {@link User} entities.
  * 
  * It extends JpaRepository to provide standard CRUD operations and query methods for handling

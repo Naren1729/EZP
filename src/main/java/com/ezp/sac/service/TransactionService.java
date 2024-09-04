@@ -7,6 +7,7 @@
 package com.ezp.sac.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -218,6 +219,6 @@ public class TransactionService implements TransactionInterface {
             }
         }
 
-        return new BigDecimal(intersection).divide(new BigDecimal(union - intersection), BigDecimal.ROUND_HALF_UP);
+        return new BigDecimal(intersection).divide(new BigDecimal(union - intersection), 2, RoundingMode.HALF_UP);
     }
 }

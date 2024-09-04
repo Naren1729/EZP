@@ -28,9 +28,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	 * @param request the request information
 	 * @return ResponseEntity with error details
 	 */
-	@ExceptionHandler(InvalidUserbameOrPasswordException.class)
+	@ExceptionHandler(InvalidUsernameOrPasswordException.class)
 	public ResponseEntity<CustomErrorMessage> handleInvalidUserbameOrPasswordException(
-			InvalidUserbameOrPasswordException ex, WebRequest request) {
+			InvalidUsernameOrPasswordException ex, WebRequest request) {
 		CustomErrorMessage customErrorMessage = new CustomErrorMessage();
 		customErrorMessage.setError(ex.getMessage());
 		customErrorMessage.setStatus(HttpStatus.BAD_REQUEST.value());
