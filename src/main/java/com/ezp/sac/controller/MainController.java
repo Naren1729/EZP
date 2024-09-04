@@ -100,8 +100,11 @@ public class MainController {
 
 	// Flag a transaction as fraudulent
 	@PostMapping("/transaction")
-	public boolean flagTransaction( @RequestBody Transaction transaction) {
-		return transactionService.flagTransaction(transaction);
+	public String flagTransaction( @RequestBody Transaction transaction) {
+		if (transactionService.flagTransaction(transaction))
+	    	 return "Transaction Successful";
+	     else
+	    	 return "Transaction Failed";
 	}
 	
 	// Get all fraud transaction details
@@ -123,10 +126,13 @@ public class MainController {
 	
 	// Authenticate user
 	@PostMapping("/authenticate")
-	public boolean authenticateUser(@RequestBody Map<String, String> request) {
+	public String authenticateUser(@RequestBody Map<String, String> request) {
 		 String username = request.get("username");
 	     String password = request.get("password");
-		return userService.authenticate(username, password);
+	     if (userService.authenticate(username, password))
+	    	 return "Login Successful";
+	     else
+	    	 return "Login Failed";
 	}
 	
 	// Add multiple users
