@@ -46,11 +46,6 @@ public interface DecryptionInterface {
     public Long decryptLong(Long val);
 
     /**
-     * Decrypts a Double value by converting it to a Long and applying decryption operations.
-     */
-    public double decryptDouble(double val);
-
-    /**
      * Decrypts a BigDecimal value by processing its unscaled value with decryption operations.
      */
     public BigDecimal decryptBigDecimal(BigDecimal val);

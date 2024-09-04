@@ -130,25 +130,33 @@ public class TransactionService implements TransactionInterface {
             transactionRepo.save(encryptedTransaction);
 
             // Fraud detection and risk score calculation
-            double riskScore = 0.0;
-            if(amount.compareTo(new BigDecimal("50000")) > 0) {
-                riskScore += 25;
+            BigDecimal riskScore = BigDecimal.ZERO;
+
+            if (amount.compareTo(new BigDecimal("50000")) > 0) {
+                riskScore = riskScore.add(new BigDecimal("25"));
             }
-            if(amount.compareTo(user.getCurrentBalance()) > 0) {
-                riskScore += 25;
+
+            if (amount.compareTo(user.getCurrentBalance()) > 0) {
+                riskScore = riskScore.add(new BigDecimal("25"));
             }
-            if(!pass) {
-                riskScore += (1 - calculateSimilarity(transactionPassword, userTransactionPassword).doubleValue()) * 100;
+
+            if (!pass) {
+                BigDecimal similarityScore = calculateSimilarity(transactionPassword, userTransactionPassword);
+                BigDecimal score = BigDecimal.valueOf(1).subtract(similarityScore).multiply(BigDecimal.valueOf(100));
+                riskScore = riskScore.add(score);
             }
-            if(!blackList) {
-                riskScore = 100.0;
+
+            if (!blackList) {
+                riskScore = new BigDecimal("100");
             }
+
             
             // Save fraud transaction details
             FraudTransactionDetails fraudTransactionDetails = new FraudTransactionDetails();
             fraudTransactionDetails.setRiskScore(riskScore);
             fraudTransactionDetails.setTransaction(transactionDetails1);
-            fraudRepo.save(fraudTransactionDetails);    
+            FraudTransactionDetails encryptedFraudTransaction = encryptionservice.encryptFraudTransaction(fraudTransactionDetails);
+            fraudRepo.save(encryptedFraudTransaction);    
             
             // Encrypt and save user details
             User encryptUser = encryptionservice.encryptUser(user);

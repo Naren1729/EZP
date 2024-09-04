@@ -73,11 +73,11 @@ import com.ezp.sac.repo.UserRepo;
          * @return The FraudTransactionDetails object with decrypted data.
          */
         public FraudTransactionDetails decryptFraud(FraudTransactionDetails fraudTransaction) {
-            fraudTransaction.setRiskScore(fraudTransaction.getRiskScore()); // Assuming riskScore remains unchanged
+            fraudTransaction.setRiskScore(decryptBigDecimal(fraudTransaction.getRiskScore())); // Assuming riskScore remains unchanged
             fraudTransaction.setTransaction(decryptTransaction(fraudTransaction.getTransaction()));
             return fraudTransaction;
         }
-
+        
         /**
          * Decrypts a Long value using bitwise operations and XOR with the encryption key.
          * 
@@ -96,23 +96,6 @@ import com.ezp.sac.repo.UserRepo;
             return decrypted;
         }
 
-        /**
-         * Decrypts a Double value by converting it to Long, then applying bitwise operations and XOR.
-         * 
-         * @param val The encrypted Double value.
-         * @return The decrypted Double value.
-         */
-        public double decryptDouble(double val) {
-            long encrypted = (long) val;
-            byte[] keyBytes = encryptionKey.getBytes();
-
-            for (int i = keyBytes.length - 1; i >= 0; i--) {
-                encrypted = Long.rotateRight(encrypted, 8);
-                encrypted ^= keyBytes[i];
-            }
-
-            return Double.longBitsToDouble(encrypted);
-        }
 
         /**
          * Decrypts a BigDecimal value by processing its unscaled value with bitwise operations and XOR.

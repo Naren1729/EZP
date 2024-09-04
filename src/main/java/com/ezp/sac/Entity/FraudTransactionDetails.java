@@ -11,6 +11,8 @@
 
 package com.ezp.sac.Entity;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.*;
@@ -37,7 +39,7 @@ public class FraudTransactionDetails {
 
     // The risk score associated with the transaction
     @Column(name = "risk_score")
-    Double riskScore;
+    BigDecimal riskScore;
 
     // Default constructor
     public FraudTransactionDetails() {
@@ -45,7 +47,7 @@ public class FraudTransactionDetails {
     }
 
     // Parameterized constructor
-    public FraudTransactionDetails(Long fraudID, TransactionDetails transaction, Double riskScore) {
+    public FraudTransactionDetails(Long fraudID, TransactionDetails transaction, BigDecimal riskScore) {
         this.fraudID = fraudID;
         this.transaction = transaction;
         this.riskScore = riskScore;
@@ -72,12 +74,12 @@ public class FraudTransactionDetails {
     }
 
     // Getter for riskScore
-    public Double getRiskScore() {
+    public BigDecimal getRiskScore() {
         return riskScore;
     }
 
     // Setter for riskScore
-    public void setRiskScore(Double riskScore) {
+    public void setRiskScore(BigDecimal riskScore) {
         this.riskScore = riskScore;
     }
 

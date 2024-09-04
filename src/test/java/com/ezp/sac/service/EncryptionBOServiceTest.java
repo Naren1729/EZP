@@ -118,17 +118,6 @@ class EncryptionBOServiceTest {
     }
 
     /**
-     * Test encrypting a double value.
-     * This test checks that the encryption of a double value returns an encrypted value different from the original.
-     */
-    @Test
-    void testEncryptDouble() {
-        double value = 270000.0;
-        double encryptedValue = encryptionBOService.encryptDouble(value);
-        assertNotEquals(value, encryptedValue);
-    }
-
-    /**
      * Test encrypting a Long value.
      * This test verifies that the encryption of a Long value returns an encrypted value different from the original.
      */

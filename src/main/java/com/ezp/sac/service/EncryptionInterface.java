@@ -36,14 +36,6 @@ public interface EncryptionInterface {
     public TransactionDetails encryptTransaction(TransactionDetails transactionDetails);
 
     /**
-     * Encrypts a double value.
-     * 
-     * @param val The double value to be encrypted.
-     * @return The encrypted double value.
-     */
-    public double encryptDouble(double val);
-
-    /**
      * Encrypts a Long value.
      * 
      * @param val The Long value to be encrypted.

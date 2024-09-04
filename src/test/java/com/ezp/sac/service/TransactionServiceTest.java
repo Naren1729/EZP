@@ -105,10 +105,10 @@ class TransactionServiceTest {
     void testFindAllFraudTransactions() {
         // Arrange
         List<FraudTransactionDetails> encryptedFraudTransactions = new ArrayList<>();
-        FraudTransactionDetails encryptedFraudTransaction = new FraudTransactionDetails(1L, new TransactionDetails(1L, new BigDecimal("100.00"), 1L, 2L, "Transfer", "Pending", LocalDateTime.now()), 10.0);
+        FraudTransactionDetails encryptedFraudTransaction = new FraudTransactionDetails(1L, new TransactionDetails(1L, new BigDecimal("100.00"), 1L, 2L, "Transfer", "Pending", LocalDateTime.now()), new BigDecimal("10.0"));
         encryptedFraudTransactions.add(encryptedFraudTransaction);
 
-        FraudTransactionDetails decryptedFraudTransaction = new FraudTransactionDetails(1L, new TransactionDetails(1L, new BigDecimal("100.00"), 1L, 2L, "Transfer", "Pending", LocalDateTime.now()), 10.0);
+        FraudTransactionDetails decryptedFraudTransaction = new FraudTransactionDetails(1L, new TransactionDetails(1L, new BigDecimal("100.00"), 1L, 2L, "Transfer", "Pending", LocalDateTime.now()), new BigDecimal("10.0"));
         List<FraudTransactionDetails> decryptedFraudTransactions = new ArrayList<>();
         decryptedFraudTransactions.add(decryptedFraudTransaction);
 
@@ -134,7 +134,7 @@ class TransactionServiceTest {
         String str1 = "password";
         String str2 = "password";
 
-        BigDecimal expectedSimilarity = BigDecimal.ONE;
+        BigDecimal expectedSimilarity = new BigDecimal("1.00");
 
         // Act
         BigDecimal similarity = transactionService.calculateSimilarity(str1, str2);
@@ -252,7 +252,7 @@ class TransactionServiceTest {
         // Arrange
         FraudTransactionDetails fraudTransactionDetails = new FraudTransactionDetails();
         fraudTransactionDetails.setTransaction(new TransactionDetails());
-        fraudTransactionDetails.setRiskScore(10.0);
+        fraudTransactionDetails.setRiskScore(new BigDecimal("10.0"));
 
         // Mock repository and decryption methods
         when(fraudRepo.findById(1L)).thenReturn(Optional.of(fraudTransactionDetails));
@@ -263,6 +263,6 @@ class TransactionServiceTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(10.0, result.getRiskScore());
+        assertEquals(new BigDecimal("10.0"), result.getRiskScore());
     }
 }

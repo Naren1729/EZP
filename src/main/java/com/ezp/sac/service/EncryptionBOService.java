@@ -21,7 +21,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.ezp.sac.Entity.FraudTransactionDetails;
 import com.ezp.sac.Entity.TransactionDetails;
 import com.ezp.sac.Entity.User;
 import com.ezp.sac.repo.UserRepo;
@@ -66,6 +66,11 @@ public class EncryptionBOService implements EncryptionInterface {
         transactionDetails.setTransactionStatus(encrypt(transactionDetails.getTransactionStatus()));
         return transactionDetails;
     }
+    
+    public FraudTransactionDetails encryptFraudTransaction(FraudTransactionDetails fraudTransactionDetails) {
+    	fraudTransactionDetails.setRiskScore(encryptBigDecimal(fraudTransactionDetails.getRiskScore()));
+    	return fraudTransactionDetails;
+    }
 
     /**
      * Encrypts a double value by converting it to a long and applying XOR and bit rotation.
@@ -73,18 +78,7 @@ public class EncryptionBOService implements EncryptionInterface {
      * @param val The plaintext double value.
      * @return The encrypted double value.
      */
-    public double encryptDouble(double val) {
-        long longBits = Double.doubleToLongBits(val);
-        byte[] keyBytes = encryptionKey.getBytes();
-        long encrypted = longBits;
 
-        for (byte keyByte : keyBytes) {
-            encrypted ^= keyByte;
-            encrypted = Long.rotateLeft(encrypted, 8);
-        }
-
-        return encrypted;
-    }
 
     /**
      * Encrypts a Long value using XOR and bit rotation with a specified key.

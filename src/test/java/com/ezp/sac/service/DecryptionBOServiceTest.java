@@ -114,13 +114,14 @@ class DecryptionBOServiceTest {
         encryptedTransaction.setTransactionType("ISoxJQE2Lg==");
         encryptedTransaction.setTransactionStatus("OyQqODI2OSFoeXY=");
         encryptedFraudTransaction.setTransaction(encryptedTransaction);
-        encryptedFraudTransaction.setRiskScore(50.0);
+        encryptedFraudTransaction.setRiskScore(new BigDecimal("123456789.52"));
 
         // Decrypt the FraudTransactionDetails object
         FraudTransactionDetails decryptedFraudTransaction = decryptionBOService.decryptFraud(encryptedFraudTransaction);
+        System.out.println(decryptedFraudTransaction);
 
         // Assert that the decrypted values match expected values
-        assertEquals(50.0, decryptedFraudTransaction.getRiskScore());
+        assertEquals(new BigDecimal("6.60"), decryptedFraudTransaction.getRiskScore());
         assertEquals(new BigDecimal("2.69919E+6"), decryptedFraudTransaction.getTransaction().getAmount());
         assertEquals(1L, decryptedFraudTransaction.getTransaction().getUsernId());
         assertEquals(2L, decryptedFraudTransaction.getTransaction().getDestinationUserId());
@@ -158,23 +159,6 @@ class DecryptionBOServiceTest {
 
         // Assert that the decrypted BigDecimal matches the expected value
         assertEquals(expectedDecryptedBigDecimal, decryptedBigDecimal, "Decrypted BigDecimal should match the expected value");
-    }
-
-    /**
-     * Test decrypting a double.
-     * This test verifies that the decryption of a double field returns the expected value.
-     */
-    @Test
-    void testDecryptDouble() {
-        // Encrypted double: 4.529759855232E+13 corresponds to 270000.0
-        double encryptedDouble = 270000.0;
-        double expectedDecryptedDouble = 3104768.000000035;
-
-        // Perform Decryption
-        double decryptedDouble = decryptionBOService.decryptDouble(encryptedDouble);
-
-        // Assert that the decrypted double matches the expected value
-        assertEquals(expectedDecryptedDouble, decryptedDouble, "Decrypted double should match the expected value");
     }
 
     /**
