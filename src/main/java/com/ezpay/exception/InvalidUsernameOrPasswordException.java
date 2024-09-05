@@ -7,7 +7,7 @@
  * used to signal errors specifically related to user authentication issues.
  */
 
-package com.ezp.sac.exception;
+package com.ezpay.exception;
 
 public class InvalidUsernameOrPasswordException extends RuntimeException {
 

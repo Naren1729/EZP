@@ -7,7 +7,7 @@
  * to encryption and decryption processes within the application.
  */
 
-package com.ezp.sac.exception;
+package com.ezpay.exception;
 
 public class EncryptionOrDecryptionException extends RuntimeException {
 

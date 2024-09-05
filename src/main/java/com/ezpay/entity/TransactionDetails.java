@@ -7,7 +7,7 @@
  * It includes information such as transaction ID, amount, user IDs, transaction type, status, and time.
  */
 
-package com.ezp.sac.Entity;
+package com.ezpay.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,6 +1,9 @@
 /**
- *  * @author: Naren, Keerthana B
- * UserRepo is a repository interface for managing {@link User} entities.
+ * @author: Naren
+ * @date: 30/08/2024
+ * 
+ * @description:
+ * TransactionRepo is a repository interface for managing {@link TransactionDetails} entities.
  * 
  * It extends JpaRepository to provide standard CRUD operations and query methods for handling
  * transaction details.
@@ -9,19 +12,15 @@
  */
 
 
-package com.ezp.sac.repo;
-
-import java.util.Optional;
+package com.ezpay.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ezp.sac.Entity.User;
+import com.ezpay.entity.TransactionDetails;
 
 
 @Repository
-public interface UserRepo extends JpaRepository<User,Long > {
-	
-	public Optional<User> findByUsername(String username);
+public interface TransactionRepo extends JpaRepository<TransactionDetails,Long> {
 
 }

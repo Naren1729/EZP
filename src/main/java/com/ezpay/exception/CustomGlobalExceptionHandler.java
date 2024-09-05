@@ -7,7 +7,7 @@
  * It extends ResponseEntityExceptionHandler to provide custom error responses.
  */
 
-package com.ezp.sac.exception;
+package com.ezpay.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

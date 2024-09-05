@@ -13,7 +13,7 @@
  */
 
 
-package com.ezp.sac.exception;
+package com.ezpay.exception;
   
 public class InvalidUserException extends RuntimeException {
   

@@ -7,11 +7,11 @@
  * Provides methods for user management, including retrieval, creation, update, and authentication.
  */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.util.List;
 
-import com.ezp.sac.Entity.User;
+import com.ezpay.entity.User;
 
 public interface UserInterface {
     

@@ -16,7 +16,7 @@
  */
 
 
-package com.ezp.sac.controller;
+package com.ezpay.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +34,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
-import com.ezp.sac.Entity.Transaction;
-import com.ezp.sac.Entity.TransactionDetails;
-import com.ezp.sac.Entity.User;
-import com.ezp.sac.exception.EncryptionOrDecryptionException;
-import com.ezp.sac.exception.InvalidUserException;
-import com.ezp.sac.exception.UserNotFoundException;
-import com.ezp.sac.service.TransactionService;
-import com.ezp.sac.service.UserService;
+import com.ezpay.entity.FraudTransactionDetails;
+import com.ezpay.entity.Transaction;
+import com.ezpay.entity.TransactionDetails;
+import com.ezpay.entity.User;
+import com.ezpay.exception.EncryptionOrDecryptionException;
+import com.ezpay.exception.InvalidUserException;
+import com.ezpay.exception.UserNotFoundException;
+import com.ezpay.service.TransactionService;
+import com.ezpay.service.UserService;
 
 @RestController
-@RequestMapping("/main")
+@RequestMapping("/api")
 @CrossOrigin("http://localhost:3000")
 public class MainController {
 	

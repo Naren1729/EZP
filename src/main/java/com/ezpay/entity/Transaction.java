@@ -11,7 +11,7 @@
  */
 
 
-package com.ezp.sac.Entity;
+package com.ezpay.entity;
 
 import java.math.BigDecimal;
 

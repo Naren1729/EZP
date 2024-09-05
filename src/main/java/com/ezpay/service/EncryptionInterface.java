@@ -9,12 +9,12 @@
  * interface should provide specific encryption logic for these data types and entities.
  */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.math.BigDecimal;
 
-import com.ezp.sac.Entity.TransactionDetails;
-import com.ezp.sac.Entity.User;
+import com.ezpay.entity.TransactionDetails;
+import com.ezpay.entity.User;
 
 
 public interface EncryptionInterface {

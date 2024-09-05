@@ -7,7 +7,7 @@
  * Implements the UserInterface to provide methods for user retrieval, creation, update, and authentication.
  */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ezp.sac.Entity.User;
-import com.ezp.sac.repo.UserRepo;
+import com.ezpay.entity.User;
+import com.ezpay.repo.UserRepo;
 
 
 @Service

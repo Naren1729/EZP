@@ -9,14 +9,14 @@
  * flagging transactions, and calculating similarities between transaction descriptions.
  */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
-import com.ezp.sac.Entity.Transaction;
-import com.ezp.sac.Entity.TransactionDetails;
+import com.ezpay.entity.FraudTransactionDetails;
+import com.ezpay.entity.Transaction;
+import com.ezpay.entity.TransactionDetails;
 
 public interface TransactionInterface {
 

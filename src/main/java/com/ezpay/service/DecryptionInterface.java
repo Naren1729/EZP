@@ -11,13 +11,13 @@
  * which handle decryption of data encrypted with a specific algorithm or key.
  */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.math.BigDecimal;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
-import com.ezp.sac.Entity.TransactionDetails;
-import com.ezp.sac.Entity.User;
+import com.ezpay.entity.FraudTransactionDetails;
+import com.ezpay.entity.TransactionDetails;
+import com.ezpay.entity.User;
 
 
 public interface DecryptionInterface {

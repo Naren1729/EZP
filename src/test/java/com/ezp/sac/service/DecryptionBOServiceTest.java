@@ -27,10 +27,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
-import com.ezp.sac.Entity.TransactionDetails;
-import com.ezp.sac.Entity.User;
-import com.ezp.sac.repo.UserRepo;
+import com.ezpay.entity.FraudTransactionDetails;
+import com.ezpay.entity.TransactionDetails;
+import com.ezpay.entity.User;
+import com.ezpay.repo.UserRepo;
+import com.ezpay.service.DecryptionBOService;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -59,7 +60,7 @@ class DecryptionBOServiceTest {
         encryptedUser.setUsername("CS04PSQ3OC0=");
         encryptedUser.setPassword("OyQqODI2OSFoeXY=");
         encryptedUser.setEmail("ISoxJSE2LgUeJiQwJ2s6JCg=");
-        BigInteger bigIntValue = new BigInteger("451831748864");
+        BigInteger bigIntValue = new BigInteger("169034995968");
         encryptedUser.setCurrentBalance(new BigDecimal(bigIntValue));
         encryptedUser.setTransactionPassword("JSQrLis=");
 
@@ -70,7 +71,7 @@ class DecryptionBOServiceTest {
         assertEquals("Bhavansh", decryptedUser.getUsername());
         assertEquals("password123", decryptedUser.getPassword());
         assertEquals("johndoe@Gmail.com", decryptedUser.getEmail());
-        assertEquals(new BigDecimal("26856"), decryptedUser.getCurrentBalance());
+        assertEquals(new BigDecimal("10000"), decryptedUser.getCurrentBalance());
         assertEquals("naren", decryptedUser.getTransactionPassword());
     }
 

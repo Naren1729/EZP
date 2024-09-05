@@ -6,7 +6,7 @@
  * This exception extends RuntimeException and is used to signal that a user could
  * not be located based on the provided criteria.
  */
-package com.ezp.sac.exception;
+package com.ezpay.exception;
 
 
 public class UserNotFoundException extends RuntimeException {

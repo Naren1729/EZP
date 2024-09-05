@@ -13,7 +13,7 @@
  */
 
 
-package com.ezp.sac.exception;
+package com.ezpay.exception;
 
 //import org.springframework.http.HttpStatus;
 

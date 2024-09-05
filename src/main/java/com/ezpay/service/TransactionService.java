@@ -4,7 +4,7 @@
  * 
  * */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,15 +15,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
-import com.ezp.sac.Entity.Transaction;
-import com.ezp.sac.Entity.TransactionDetails;
-import com.ezp.sac.Entity.User;
-import com.ezp.sac.exception.EncryptionOrDecryptionException;
-import com.ezp.sac.exception.UserNotFoundException;
-import com.ezp.sac.repo.FraudRepo;
-import com.ezp.sac.repo.TransactionRepo;
-import com.ezp.sac.repo.UserRepo;
+import com.ezpay.entity.FraudTransactionDetails;
+import com.ezpay.entity.Transaction;
+import com.ezpay.entity.TransactionDetails;
+import com.ezpay.entity.User;
+import com.ezpay.exception.EncryptionOrDecryptionException;
+import com.ezpay.exception.UserNotFoundException;
+import com.ezpay.repo.FraudRepo;
+import com.ezpay.repo.TransactionRepo;
+import com.ezpay.repo.UserRepo;
 
 @Service
 public class TransactionService implements TransactionInterface {

@@ -9,7 +9,7 @@
  * and a unique identifier for the fraudulent transaction.
  */
 
-package com.ezp.sac.Entity;
+package com.ezpay.entity;
 
 import java.math.BigDecimal;
 

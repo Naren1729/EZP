@@ -12,12 +12,12 @@
  */
 
 
-package com.ezp.sac.repo;
+package com.ezpay.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
+import com.ezpay.entity.FraudTransactionDetails;
 
 @Repository
 public interface FraudRepo extends JpaRepository<FraudTransactionDetails, Long> {

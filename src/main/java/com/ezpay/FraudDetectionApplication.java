@@ -1,4 +1,4 @@
-package com.ezp.sac;
+package com.ezpay;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

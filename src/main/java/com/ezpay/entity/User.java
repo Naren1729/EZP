@@ -6,7 +6,7 @@
  * The User class represents a bank user with details such as username, password, email, current balance, and transaction history.
  */
 
-package com.ezp.sac.Entity;
+package com.ezpay.entity;
 
 import jakarta.persistence.*;
 

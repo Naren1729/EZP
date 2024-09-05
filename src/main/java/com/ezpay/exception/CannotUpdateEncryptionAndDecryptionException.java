@@ -8,7 +8,7 @@
 * operations in the application.
 */
 
-package com.ezp.sac.exception;
+package com.ezpay.exception;
 
 public class CannotUpdateEncryptionAndDecryptionException extends RuntimeException {
 

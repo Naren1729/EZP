@@ -12,7 +12,7 @@
  * The service is annotated with @Service to indicate it is a Spring-managed service component.
  */
 
-package com.ezp.sac.service;
+package com.ezpay.service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -22,10 +22,10 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ezp.sac.Entity.FraudTransactionDetails;
-import com.ezp.sac.Entity.TransactionDetails;
-import com.ezp.sac.Entity.User;
-import com.ezp.sac.repo.UserRepo;
+import com.ezpay.entity.FraudTransactionDetails;
+import com.ezpay.entity.TransactionDetails;
+import com.ezpay.entity.User;
+import com.ezpay.repo.UserRepo;
 
  @Service
     public class DecryptionBOService implements DecryptionInterface {

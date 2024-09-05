@@ -28,8 +28,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.ezp.sac.Entity.User;
-import com.ezp.sac.repo.UserRepo;
+import com.ezpay.entity.User;
+import com.ezpay.repo.UserRepo;
+import com.ezpay.service.DecryptionBOService;
+import com.ezpay.service.EncryptionBOService;
+import com.ezpay.service.UserService;
 
 
 class UserServiceTest {
