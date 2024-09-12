@@ -85,7 +85,7 @@ public class TransactionService implements TransactionInterface {
      * @param transaction The transaction to be flagged.
      * @return true if the transaction is successful, false otherwise.
      */
-    public boolean flagTransaction(Transaction transaction) {
+    public TransactionDetails flagTransaction(Transaction transaction) {
         BigDecimal amount = transaction.getAmount();
         Long userId = transaction.getUserID();
         Long destinationUserId = transaction.getDestinationUserID();
@@ -127,7 +127,7 @@ public class TransactionService implements TransactionInterface {
             status = "failed";
             transactionDetails1.setTransactionStatus(status);
             TransactionDetails encryptedTransaction = encryptionservice.encryptTransaction(transactionDetails1);
-            transactionRepo.save(encryptedTransaction);
+            TransactionDetails failedTransactionAdded = transactionRepo.save(encryptedTransaction);
 
             // Fraud detection and risk score calculation
             BigDecimal riskScore = BigDecimal.ZERO;
@@ -164,12 +164,12 @@ public class TransactionService implements TransactionInterface {
             userRepo.save(encryptUser);
             userRepo.save(encryptDestinationUser);
             
-            return false;
+            return failedTransactionAdded;
         } else {
             status = "Success";
             transactionDetails1.setTransactionStatus(status);
             TransactionDetails encryptedTransaction = encryptionservice.encryptTransaction(transactionDetails1);
-            transactionRepo.save(encryptedTransaction);
+            TransactionDetails successTransactionAdded = transactionRepo.save(encryptedTransaction);
 
             // Update user balances
             user.setCurrentBalance(user.getCurrentBalance().subtract(amount));
@@ -180,9 +180,10 @@ public class TransactionService implements TransactionInterface {
             User encryptDestinationUser = encryptionservice.encryptUser(destinationUser);
             userRepo.save(encryptUser);
             userRepo.save(encryptDestinationUser);
+            return successTransactionAdded;
         }
         
-        return true;
+        
     }
     
     /**

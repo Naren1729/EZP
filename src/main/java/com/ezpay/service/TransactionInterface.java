@@ -42,7 +42,7 @@ public interface TransactionInterface {
      * @param transaction The Transaction object to be flagged.
      * @return True if the transaction was successfully flagged, false otherwise.
      */
-    public boolean flagTransaction(Transaction transaction);
+    public TransactionDetails flagTransaction(Transaction transaction);
 
     /**
      * Retrieves a list of all TransactionDetails objects.

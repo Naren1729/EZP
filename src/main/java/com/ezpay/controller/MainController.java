@@ -100,11 +100,9 @@ public class MainController {
 
 	// Flag a transaction as fraudulent
 	@PostMapping("/transaction")
-	public String flagTransaction( @RequestBody Transaction transaction) {
-		if (transactionService.flagTransaction(transaction))
-	    	 return "Transaction Successful";
-	     else
-	    	 return "Transaction Failed";
+	public ResponseEntity<TransactionDetails> flagTransaction( @RequestBody Transaction transaction) {
+		TransactionDetails addedTransaction = transactionService.flagTransaction(transaction);
+        return new ResponseEntity<>(addedTransaction, HttpStatus.CREATED);
 	}
 	
 	// Get all fraud transaction details
