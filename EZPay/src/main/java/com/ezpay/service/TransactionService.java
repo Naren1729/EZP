@@ -162,7 +162,7 @@ public class TransactionService implements TransactionInterface {
 	    return riskscore;
 	}
 
-	private BigDecimal getTotalTransactionAmountForUserWithinSameDay(Long userId,Long destinationId ,LocalDateTime date) {
+	public BigDecimal getTotalTransactionAmountForUserWithinSameDay(Long userId,Long destinationId ,LocalDateTime date) {
 	    // Fetch all transactions for the user within the same day
 	    List<TransactionDetails> transactions = getTransactionsForUserWithinSameDay(userId, destinationId, date);
 	    System.out.println(transactions.size());
