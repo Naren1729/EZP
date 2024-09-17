@@ -8,7 +8,7 @@
  * This class tests the encryption functionalities of the EncryptionBOService. 
  * It verifies that the encryption methods correctly transform data into its encrypted form.
  * The tests cover various types of data, including User, TransactionDetails, doubles, longs, BigDecimals, and Strings.
- */
+ */ 
 
 package com.ezp.sac.service;
 
