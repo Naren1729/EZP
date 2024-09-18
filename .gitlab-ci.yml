@@ -8,6 +8,7 @@ compile_job:
   stage: compile_stage
   script:
     - mvn clean compile
+test_job:
   stage: test_stage
   script:
     - mvn test
