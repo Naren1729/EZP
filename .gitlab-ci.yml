@@ -1,0 +1,20 @@
+---
+image: maven:3.8.3-openjdk-17
+stages:
+  - compile_stage
+  - test_stage
+  - package_stage
+compile_job:
+  stage: compile_stage
+  script:
+    - mvn clean compile
+  stage: test_stage
+  script:
+    - mvn test
+package_job:
+  stage: package_stage
+  script:
+    - mvn install
+  artifacts:
+    paths:
+      - target/*.jar
