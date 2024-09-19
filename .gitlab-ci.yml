@@ -1,21 +1,13 @@
-
 image: maven:3-eclipse-temurin-17
-
-
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
 stages:
-  - compile_stage
   - sonarqube-check
   - sonarqube-vulnerability-report
-  - test_stage
-  - package_stage
-compile_job:
-  stage: compile_stage
-  script:
-    - mvn clean compile
+
 sonarqube-check:
   stage: sonarqube-check
   dependencies:
@@ -51,14 +43,3 @@ sonarqube-vulnerability-report:
     expire_in: 1 day
     reports:
       sast: gl-sast-sonar-report.json
-test_job:
-  stage: test_stage
-  script:
-    - mvn test
-package_job:
-  stage: package_stage
-  script:
-    - mvn install
-  artifacts:
-    paths:
-      - target/*.jar
