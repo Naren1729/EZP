@@ -28,7 +28,9 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
-		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
+		<sonar.projectKey>Naren1729_ezpay_3d9de050-1197-4ec6-8439-75c616337565</sonar.projectKey>
+ 		 <sonar.projectName>Ezpay</sonar.projectName>
+  		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
