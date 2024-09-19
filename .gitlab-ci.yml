@@ -5,21 +5,26 @@ variables:
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
 
 stages:
+  - compile_stage
   - sonarqube-check
   - sonarqube-vulnerability-report
+  - test_stage
+  - package_stage
+
+compile_job:
+  stage: compile_stage
+  script:
+    - mvn clean compile
 
 sonarqube-check:
   stage: sonarqube-check
   dependencies:
-    - get-binaries
     - build
   cache:
     policy: pull
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:
       - sonar-scanner/
-      
-      
   script: 
     - mvn verify sonar:sonar
   allow_failure: true
@@ -43,3 +48,16 @@ sonarqube-vulnerability-report:
     expire_in: 1 day
     reports:
       sast: gl-sast-sonar-report.json
+
+test_job:
+  stage: test_stage
+  script:
+    - mvn test
+
+package_job:
+  stage: package_stage
+  script:
+    - mvn install
+  artifacts:
+    paths:
+      - target/*.jar
