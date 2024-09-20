@@ -229,7 +229,6 @@ class TransactionServiceTest {
         boolean resultValid = transactionService.flagTransaction(validTransaction);
 
         assertTrue(resultValid);
-        assertTrue(resultValid);
         verify(transactionRepo).save(any(TransactionDetails.class));
     }
 
