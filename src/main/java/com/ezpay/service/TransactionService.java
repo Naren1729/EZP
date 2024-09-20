@@ -48,6 +48,8 @@ public class TransactionService implements TransactionInterface {
 	@Autowired
 	private DecryptionBOService decryptionservice; // Service for decrypting data
 	
+	private static final String  transactionRisk="Transaction with risk : {}";
+	
 	 private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
 	/**
@@ -119,11 +121,11 @@ public class TransactionService implements TransactionInterface {
             	logger.info("Safe Transaction");
                 riskscore = riskscore.add(BigDecimal.ZERO);
             } else if (transactionList.size() == 1) {
-            	logger.info("Transaction with risk : {}" ,riskscore);
+            	logger.info(transactionRisk ,riskscore);
                 riskscore = riskscore.add(new BigDecimal("50"));
             } else if (transactionList.size() == 2) {
                 riskscore = riskscore.add(new BigDecimal("100"));
-                logger.info("Transaction with risk : {}" ,riskscore);
+                logger.info(transactionRisk ,riskscore);
             }
         } else {
             logger.info("Transaction is not within odd hours");
@@ -132,16 +134,16 @@ public class TransactionService implements TransactionInterface {
                 logger.info("Safe Transaction");
             } else if (transactionList.size() == 2) {
                 riskscore = riskscore.add(new BigDecimal("25"));
-                logger.info("Transaction with risk : {}" ,riskscore);
+                logger.info(transactionRisk ,riskscore);
             } else if (transactionList.size() == 3) {
                 riskscore = riskscore.add(new BigDecimal("50"));
-                logger.info("Transaction with risk : {}" ,riskscore);
+                logger.info(transactionRisk ,riskscore);
             } else if (transactionList.size() == 4) {
                 riskscore = riskscore.add(new BigDecimal("75"));
-                logger.info("Transaction with risk : {}" ,riskscore);
+                logger.info(transactionRisk ,riskscore);
             } else if (transactionList.size() == 5) {
                 riskscore = riskscore.add(new BigDecimal("100"));
-                logger.info("Transaction with risk : {}" ,riskscore);
+                logger.info(transactionRisk ,riskscore);
             }
         }
 
