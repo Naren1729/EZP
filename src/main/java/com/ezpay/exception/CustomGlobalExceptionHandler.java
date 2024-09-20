@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-//import com.ezp.sac.controller.InvalidUserbameOrPasswordException;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -45,7 +44,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		customErrorMessage.setError(ex.getMessage());
 		customErrorMessage.setStatus(HttpStatus.BAD_REQUEST.value());
 		return new ResponseEntity<CustomErrorMessage>(customErrorMessage, HttpStatus.BAD_REQUEST);
-	} // KEERTHANA
+	}
 
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<CustomErrorMessage> handleUserNotFoundException(UserNotFoundException ex,

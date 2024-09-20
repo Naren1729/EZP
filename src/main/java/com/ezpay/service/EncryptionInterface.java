@@ -18,13 +18,6 @@ import com.ezpay.entity.TransactionDetails;
 
 public interface EncryptionInterface {
 
-    /**
-     * Encrypts the details of a User object.
-     * 
-     * @param user The User object containing data to be encrypted.
-     * @return The User object with encrypted data.
-     */
-//    public User encryptUser(User user);
 
     /**
      * Encrypts the details of a TransactionDetails object.
