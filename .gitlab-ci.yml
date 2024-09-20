@@ -5,10 +5,12 @@ stages:
   - code_quality_stage
   - test_stage
   - package_stage
+
 compile_job:
   stage: compile_stage
   script:
     - mvn clean compile
+
 sonarqube-check:
   image: maven:3.8.3-openjdk-17
   stage: code_quality_stage
@@ -24,10 +26,12 @@ sonarqube-check:
   allow_failure: true
   only:
     - master
+
 test_job:
   stage: test_stage
   script:
     - mvn test
+    
 package_job:
   stage: package_stage
   script:
