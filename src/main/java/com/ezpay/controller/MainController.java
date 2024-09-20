@@ -60,6 +60,8 @@ public class MainController {
 	private UserService userService;
 	@Autowired
 	private TransactionService transactionService;
+	
+	private static final String constantUserNotFound= "User not found with id: ";
 
 
 	// Add a new user
@@ -79,7 +81,7 @@ public class MainController {
 	@GetMapping("/user/id/{id}")
 	public ResponseEntity<User> decryptAndGetUserById(@PathVariable Long id) {
 		User user = Optional.ofNullable(userService.findById(id))
-				.orElseThrow(() -> new EncryptionOrDecryptionException("User not found with id: " + id));
+				.orElseThrow(() -> new EncryptionOrDecryptionException(constantUserNotFound + id));
 		logger.info("User found and decrypted with id: {}", id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
@@ -198,7 +200,7 @@ public class MainController {
 		User userExists = userService.updateUser(userId, user);
 		if (userExists == null) {
 			logger.error("User not found with id: {}", userId);
-			throw new EncryptionOrDecryptionException("User not found with id: " + userId);
+			throw new EncryptionOrDecryptionException(constantUserNotFound + userId);
 		}
 		logger.info("Updated user with id: {}", userId);
 		return new ResponseEntity<>("Updated Successfully", HttpStatus.OK);
@@ -210,7 +212,7 @@ public class MainController {
 		User changedUser = userService.changeUser(userId, update);
 		if (changedUser == null) {
 			logger.error("User not found with id: {}", userId);
-			throw new EncryptionOrDecryptionException("User not found with id: " + userId);
+			throw new EncryptionOrDecryptionException(constantUserNotFound + userId);
 		}
 		logger.info("Partially updated user with id: {}", userId);
 		return new ResponseEntity<>("Updated Successfully", HttpStatus.OK);
@@ -222,7 +224,7 @@ public class MainController {
 		boolean response = userService.deleteUsers(userId);
 		if (!response) {
 			logger.error("User not found with id: {}", userId);
-			throw new EncryptionOrDecryptionException("User not found with id: " + userId);
+			throw new EncryptionOrDecryptionException(constantUserNotFound + userId);
 		}
 		logger.info("Deleted user with id: {}", userId);
 		return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
