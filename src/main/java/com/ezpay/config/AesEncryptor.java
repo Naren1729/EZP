@@ -56,7 +56,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 			initCipher(Cipher.ENCRYPT_MODE);
 		} catch (GeneralSecurityException e) {
 			
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 	    byte[] bytes = SerializationUtils.serialize(attribute);
 	    byte[] encryptedBytes = null;
@@ -64,13 +64,13 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 			encryptedBytes = getCipher().doFinal(bytes);
 		} catch (IllegalBlockSizeException e) {
 			
-//			e.printStackTrace();
+			e.printStackTrace();
 		} catch (BadPaddingException e) {
 			
-//			e.printStackTrace();
+			e.printStackTrace();
 		} catch (GeneralSecurityException e) {
 		
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 	    return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
@@ -86,20 +86,20 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 			initCipher(Cipher.DECRYPT_MODE);
 		} catch (GeneralSecurityException e) {
 			
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		byte[] bytes = null;
 		try {
 			bytes = getCipher().doFinal(Base64.getDecoder().decode(dbData));
 		} catch (IllegalBlockSizeException e) {
 			
-//			e.printStackTrace();
+			e.printStackTrace();
 		} catch (BadPaddingException e) {
 			
-//			e.printStackTrace();
+			e.printStackTrace();
 		} catch (GeneralSecurityException e) {
 		
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		 return SerializationUtils.deserialize(bytes);
 	}
