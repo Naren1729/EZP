@@ -170,7 +170,7 @@ class TransactionServiceTest {
      * This test verifies that the similarity calculation is correct when the strings are identical.
      */
     @Test
-    public void testCalculateSimilarity() {
+    void testCalculateSimilarity() {
         String str1 = "password";
         String str2 = "password";
 
@@ -323,7 +323,7 @@ class TransactionServiceTest {
      * This test verifies the fraud detection logic based on user, destination user, and transaction amount.
      */
     @Test
-    public void testDetectFraud() {
+    void testDetectFraud() {
         // Arrange
         Long userId = 1L;
         Long destinationUserId = 2L;
