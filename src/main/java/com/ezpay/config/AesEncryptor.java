@@ -19,8 +19,8 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	
 	@Value("${aes.encryption.key}")
 	private String encryptionKey;
-	
-	private static final String  ENCRYPTIONCIPHER = "AES";
+	@Value("${aes.value}")
+	private String  ENCRYPTIONCIPHER ;
 	
 	private Key key;
 	private Cipher cipher;
