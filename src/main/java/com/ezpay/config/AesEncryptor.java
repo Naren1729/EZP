@@ -20,7 +20,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	@Value("${aes.encryption.key}")
 	private String encryptionKey;
 	
-	private static final String encryptionCipher = "AES";
+	private static final String  ENCRYPTIONCIPHER = "AES";
 	
 	private Key key;
 	private Cipher cipher;
@@ -29,7 +29,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	public Key getKey() {
 		if(key==null) {
-			key = new SecretKeySpec(encryptionKey.getBytes(), encryptionCipher);
+			key = new SecretKeySpec(encryptionKey.getBytes(), ENCRYPTIONCIPHER);
 		}
 		return key;
 	}
@@ -40,7 +40,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	public Cipher getCipher() throws GeneralSecurityException {
 		if(cipher == null) {
-			cipher = Cipher.getInstance(encryptionCipher);
+			cipher = Cipher.getInstance(ENCRYPTIONCIPHER);
 		}
 		return cipher;
 	}
