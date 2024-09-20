@@ -199,7 +199,7 @@ public class MainController {
 	public ResponseEntity<String> updateUsers(@PathVariable Long userId, @RequestBody User user) {
 		User userExists = userService.updateUser(userId, user);
 		if (userExists == null) {
-			logger.error("User not found with id: {}", userId);
+			logger.error(CONSTUSERNOTFOUND + userId);
 			throw new EncryptionOrDecryptionException(CONSTUSERNOTFOUND + userId);
 		}
 		logger.info("Updated user with id: {}", userId);
@@ -211,7 +211,7 @@ public class MainController {
 	public ResponseEntity<String> changeUsers(@PathVariable Long userId, @RequestBody Map<String, Object> update) {
 		User changedUser = userService.changeUser(userId, update);
 		if (changedUser == null) {
-			logger.error("User not found with id: {}", userId);
+			logger.error(CONSTUSERNOTFOUND + userId);
 			throw new EncryptionOrDecryptionException(CONSTUSERNOTFOUND + userId);
 		}
 		logger.info("Partially updated user with id: {}", userId);
@@ -223,7 +223,7 @@ public class MainController {
 	public ResponseEntity<String> deleteUsers(@PathVariable Long userId) {
 		boolean response = userService.deleteUsers(userId);
 		if (!response) {
-			logger.error("User not found with id: {}", userId);
+			logger.error(CONSTUSERNOTFOUND + userId);
 			throw new EncryptionOrDecryptionException(CONSTUSERNOTFOUND + userId);
 		}
 		logger.info("Deleted user with id: {}", userId);
