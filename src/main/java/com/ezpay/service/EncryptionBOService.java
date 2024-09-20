@@ -41,14 +41,6 @@ public class EncryptionBOService implements EncryptionInterface {
      * @param user The User object containing plaintext data.
      * @return The User object with encrypted data.
      */
-//    public User encryptUser(User user) {
-//        user.setUsername(encrypt(user.getUsername()));
-//        user.setPassword(encrypt(user.getPassword()));
-//        user.setEmail(encrypt(user.getEmail()));
-//        user.setCurrentBalance(encryptBigDecimal(user.getCurrentBalance()));
-//        user.setTransactionPassword(encrypt(user.getTransactionPassword()));
-//        return user;
-//    }
 
     /**
      * Encrypts a TransactionDetails object, including fields such as amount,
