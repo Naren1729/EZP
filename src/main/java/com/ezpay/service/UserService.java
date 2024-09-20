@@ -41,6 +41,7 @@ public class UserService implements UserInterface {
         List<User> decryptedUsers = new ArrayList<>();
         for (User user : encryptedUsers) {
             // Decrypt each user
+//            decryptedUsers.add(decryptionservice.decryptUser(user));
         	decryptedUsers.add(user);
         }
         return decryptedUsers;
@@ -55,6 +56,7 @@ public class UserService implements UserInterface {
         Optional<User> user = userRepo.findById(id);
         if (user.isPresent()) {
             // Decrypt the user if found
+//            return decryptionservice.decryptUser(user.get());
         	return user.get();
         }
         return null;
@@ -66,6 +68,7 @@ public class UserService implements UserInterface {
         Optional<User> user = userRepo.findByUsername(encrypterusername);
         if (user.isPresent()) {
             // Decrypt the user if found
+//            return decryptionservice.decryptUser(user.get());
         	return user.get();
         }
         return null;
@@ -76,11 +79,12 @@ public class UserService implements UserInterface {
      * @return The encrypted user that was saved.
      */
     public User saveUser(User user) {
-    	if(user.getUsername().equals("")) {
+    	if(user.getUsername() == "") {
     		return null;
     	}
         try {
             // Encrypt the user before saving
+            //User encryptedUser = encryptionservice.encryptUser(user);
             // Save the encrypted user
             userRepo.save(user);
             return user;
@@ -99,6 +103,7 @@ public class UserService implements UserInterface {
      * @return The updated user.
      */
     public User updateUser(Long userID,User user) {
+//        long userID = user.getId();
         User user1 = findById(userID);
         if (user1 != null) {
             // Update user details
@@ -129,6 +134,10 @@ public class UserService implements UserInterface {
             if (fieldType.equals(BigDecimal.class) && value instanceof Number) {
                 valueToSet = new BigDecimal(((Number) value).toString());
             }
+//            } else if (fieldType.equals(Integer.class) && value instanceof Number) {
+//                valueToSet = ((Number) value).intValue();
+//            } // Add other conversions as needed
+            
             ReflectionUtils.setField(fieldToBeUpdated, user, valueToSet);
         });
         
