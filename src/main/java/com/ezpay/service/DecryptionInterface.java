@@ -21,11 +21,6 @@ import com.ezpay.entity.TransactionDetails;
 
 public interface DecryptionInterface {
 
-    /**
-     * Decrypts a User object, including fields such as username, password, email,
-     * current balance, and transaction password.
-     */
-//    public User decryptUser(User user);
 
     /**
      * Decrypts a TransactionDetails object, including fields such as amount,

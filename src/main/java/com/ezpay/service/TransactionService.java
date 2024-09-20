@@ -201,12 +201,12 @@ public class TransactionService implements TransactionInterface {
 		Long destinationUserId = transaction.getDestinationUserID();
 		String transactionType = transaction.getType();
 		String status = "";
-		if(userId == destinationUserId) {
+		if(userId.equals(destinationUserId) ) {
 			return false;
 		}
 		boolean pass = false;
 		
-		BigDecimal riskScore = BigDecimal.ZERO;
+		BigDecimal riskScore ;
 		// Create a new TransactionDetails object
 		TransactionDetails transactionDetails1 = new TransactionDetails();
 		transactionDetails1.setAmount(amount);

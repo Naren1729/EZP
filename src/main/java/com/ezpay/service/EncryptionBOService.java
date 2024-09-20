@@ -34,13 +34,6 @@ public class EncryptionBOService implements EncryptionInterface {
     @Autowired
     public UserRepo userRepo;
 
-    /**
-     * Encrypts a User object, including fields such as username, password, email,
-     * current balance, and transaction password.
-     * 
-     * @param user The User object containing plaintext data.
-     * @return The User object with encrypted data.
-     */
 
     /**
      * Encrypts a TransactionDetails object, including fields such as amount,
@@ -62,13 +55,6 @@ public class EncryptionBOService implements EncryptionInterface {
     	fraudTransactionDetails.setRiskScore(encryptBigDecimal(fraudTransactionDetails.getRiskScore()));
     	return fraudTransactionDetails;
     }
-
-    /**
-     * Encrypts a double value by converting it to a long and applying XOR and bit rotation.
-     * 
-     * @param val The plaintext double value.
-     * @return The encrypted double value.
-     */
 
 
     /**

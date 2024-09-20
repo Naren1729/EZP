@@ -35,20 +35,6 @@ import com.ezpay.repository.UserRepo;
         @Autowired
         public UserRepo userRepo;
 
-        /**
-         * Decrypts user details including username, password, email, current balance, and transaction password.
-         * 
-         * @param user The User object containing encrypted data.
-         * @return The User object with decrypted data.
-         */
-//        public User decryptUser(User user) {
-//            user.setUsername(decrypt(user.getUsername()));
-//            user.setPassword(decrypt(user.getPassword()));
-//            user.setEmail(decrypt(user.getEmail()));
-//            user.setCurrentBalance(decryptBigDecimal(user.getCurrentBalance()));
-//            user.setTransactionPassword(decrypt(user.getTransactionPassword()));
-//            return user;
-//        }
 
         /**
          * Decrypts transaction details including amount, transaction type, and status.

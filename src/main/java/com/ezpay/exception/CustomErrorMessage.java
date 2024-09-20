@@ -15,8 +15,6 @@
 
 package com.ezpay.exception;
 
-//import org.springframework.http.HttpStatus;
-
 public class CustomErrorMessage {
 	
 	private int status;
