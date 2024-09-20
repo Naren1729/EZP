@@ -74,17 +74,14 @@ public class UserService implements UserInterface {
      * @return The encrypted user that was saved.
      */
     public User saveUser(User user) {
-    	if(user.getUsername() == "") {
+    	if(user.getUsername().equals("")) {
     		return null;
     	}
         try {
             userRepo.save(user);
             return user;
         } catch (Exception e) {
-            // Log the exception (optional)
-            System.err.println("Error saving user: " + e.getMessage());
-            // Handle the exception as needed
-            return null;
+            return new User();
         }
     }
 
@@ -140,7 +137,6 @@ public class UserService implements UserInterface {
         List<User> users = findAll();
         for (User user : users) {
             if (user.getUsername().equals(username)) {
-            	System.out.println(user);
                 return true;
             }
         }
