@@ -228,6 +228,7 @@ class TransactionServiceTest {
         System.out.println("Executing valid transaction...");
         boolean resultValid = transactionService.flagTransaction(validTransaction);
 
+        
         assertTrue(resultValid);
         verify(transactionRepo).save(any(TransactionDetails.class));
     }
