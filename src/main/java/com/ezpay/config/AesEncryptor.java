@@ -20,7 +20,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	@Value("${aes.encryption.key}")
 	private String encryptionKey;
 	
-	private static final String encryptionCipher = "AES";
+	private final String encryptionCipher = "AES";
 	
 	private Key key;
 	private Cipher cipher;
@@ -55,22 +55,22 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	    try {
 			initCipher(Cipher.ENCRYPT_MODE);
 		} catch (GeneralSecurityException e) {
-			
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		}
 	    byte[] bytes = SerializationUtils.serialize(attribute);
 	    byte[] encryptedBytes = null;
 		try {
 			encryptedBytes = getCipher().doFinal(bytes);
 		} catch (IllegalBlockSizeException e) {
-			
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		} catch (GeneralSecurityException e) {
-		
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		}
 	    return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
@@ -79,27 +79,27 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	@Override
 	public Object convertToEntityAttribute(String dbData) {
-		
+		// TODO Auto-generated method stub
 		if(dbData == null)
 			return null;
 		 try {
 			initCipher(Cipher.DECRYPT_MODE);
 		} catch (GeneralSecurityException e) {
-			
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		}
 		byte[] bytes = null;
 		try {
 			bytes = getCipher().doFinal(Base64.getDecoder().decode(dbData));
 		} catch (IllegalBlockSizeException e) {
-			
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		} catch (GeneralSecurityException e) {
-		
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		}
 		 return SerializationUtils.deserialize(bytes);
 	}
