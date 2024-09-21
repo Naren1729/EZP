@@ -4,9 +4,7 @@ import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.util.Base64;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
