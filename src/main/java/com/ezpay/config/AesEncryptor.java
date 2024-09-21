@@ -4,7 +4,9 @@ import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +20,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	@Value("${aes.encryption.key}")
 	private String encryptionKey;
 	@Value("${aes.value}")
-	private String encryptionCipher;
+	private String  ENCRYPTIONCIPHER ;
 	
 	private Key key;
 	private Cipher cipher;
@@ -27,7 +29,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	public Key getKey() {
 		if(key==null) {
-			key = new SecretKeySpec(encryptionKey.getBytes(), encryptionCipher);
+			key = new SecretKeySpec(encryptionKey.getBytes(), ENCRYPTIONCIPHER);
 		}
 		return key;
 	}
@@ -38,7 +40,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	public Cipher getCipher() throws GeneralSecurityException {
 		if(cipher == null) {
-			cipher = Cipher.getInstance(encryptionCipher);
+			cipher = Cipher.getInstance(ENCRYPTIONCIPHER);
 		}
 		return cipher;
 	}
@@ -59,7 +61,11 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	    byte[] encryptedBytes = null;
 		try {
 			encryptedBytes = getCipher().doFinal(bytes);
-		} catch (Exception e) {
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		} catch (GeneralSecurityException e) {
 			e.printStackTrace();
 		}
 	    return Base64.getEncoder().encodeToString(encryptedBytes);
@@ -81,7 +87,11 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 		byte[] bytes = null;
 		try {
 			bytes = getCipher().doFinal(Base64.getDecoder().decode(dbData));
-		} catch (Exception e) {
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		} catch (GeneralSecurityException e) {
 			e.printStackTrace();
 		}
 		 return SerializationUtils.deserialize(bytes);

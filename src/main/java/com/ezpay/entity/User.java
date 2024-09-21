@@ -41,7 +41,7 @@ public class User {
 
     @Convert(converter= AesEncryptor.class)
     @Column(name = "is_blockListed")
-    boolean isBlockeListed;
+    Boolean isBlockeListed;
 
     @Convert(converter= AesEncryptor.class)
     @Column(name = "transaction_password")
@@ -55,7 +55,7 @@ public class User {
         super();
     }
 
-    public User(Long id, String username, String password, String email, BigDecimal currentBalance, boolean isBlockeListed,
+    public User(Long id, String username, String password, String email, BigDecimal currentBalance, Boolean isBlockeListed,
                 String transactionPassword) {
         super();
         this.id = id;
@@ -69,11 +69,11 @@ public class User {
 
     // Getters and setters for the fields
 
-    public boolean getIsBlockeListed() {
+    public Boolean getIsBlockeListed() {
         return isBlockeListed;
     }
 
-    public void setBlockeListed(boolean isBlockeListed) {
+    public void setBlockeListed(Boolean isBlockeListed) {
         this.isBlockeListed = isBlockeListed;
     }
 
