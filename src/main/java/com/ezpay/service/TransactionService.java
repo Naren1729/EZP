@@ -61,14 +61,13 @@ public class TransactionService implements TransactionInterface {
 	 *                                         given ID.
 	 * @throws EncryptionOrDecryptionException if decryption fails.
 	 */
-	public TransactionDetails getTransactionById(Long Transaction_Id) {
+	public TransactionDetails getTransactionById(Long transaction_Id) {
 		// Fetch transaction details by ID
-		TransactionDetails transactionDetails = transactionRepo.findById(Transaction_Id)
+		TransactionDetails transactionDetails = transactionRepo.findById(transaction_Id)
 				.orElseThrow(() -> new UserNotFoundException("Id Invalid"));
 
 		// Decrypt transaction details
-		TransactionDetails decryptedTransactionDetails = decryptionservice.decryptTransaction(transactionDetails);
-		return decryptedTransactionDetails;
+		return decryptionservice.decryptTransaction(transactionDetails);
 	}
 
 	/**
@@ -86,9 +85,8 @@ public class TransactionService implements TransactionInterface {
 				.orElseThrow(() -> new UserNotFoundException("Id Invalid"));
 
 		// Decrypt fraud transaction details
-		FraudTransactionDetails decryptedFraudTransactionDetails = decryptionservice
+		return decryptionservice
 				.decryptFraud(fraudTransactionDetails);
-		return decryptedFraudTransactionDetails;
 	}
 	
 	
@@ -117,7 +115,7 @@ public class TransactionService implements TransactionInterface {
 
         if (transactionTime.isAfter(startOddHours) && transactionTime.isBefore(endOddHours)) {
             logger.info("Transaction is within odd hours");
-            if (transactionList.size() == 0) {
+            if (transactionList.isEmpty()) {
             	logger.info("Safe Transaction");
                 riskscore = riskscore.add(BigDecimal.ZERO);
             } else if (transactionList.size() == 1) {
@@ -129,7 +127,7 @@ public class TransactionService implements TransactionInterface {
             }
         } else {
             logger.info("Transaction is not within odd hours");
-            if (transactionList.size() == 0) {
+            if (transactionList.isEmpty()) {
                 riskscore = riskscore.add(BigDecimal.ZERO);
                 logger.info("Safe Transaction");
             } else if (transactionList.size() == 2) {
