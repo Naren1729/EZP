@@ -98,102 +98,80 @@ public class TransactionService implements TransactionInterface {
 	
 
 	public BigDecimal detectFraud(TransactionDetails transactionDetails) {
-	    logger.info("Starting fraud detection for transaction: {}", transactionDetails);
-	    
-	    Long userId = transactionDetails.getUsernId();
-	    Long destinationId = transactionDetails.getDestinationUserId();
-	    LocalDateTime date = transactionDetails.getTransactionTime();
-	    
-	    List<TransactionDetails> transactionList = getTransactionsForUserWithinSameDay(userId, destinationId, date);
-	    logger.info("Transactions for user within the same day: {}", transactionList);
-	    
-	    BigDecimal riskScore = calculateRiskScore(transactionDetails, transactionList);
-	    User user = userService.findById(userId);
-	    User destinationUser = userService.findById(destinationId);
-	    
-	    if (isUserBlocklisted(user)) {
-	        logger.info("User is blocklisted");
-	        return new BigDecimal("100");
-	    } else if (isUserBlocklisted(destinationUser)) {
-	        logger.info("Destination user is blocklisted");
-	        riskScore = riskScore.add(new BigDecimal("50"));
-	    }
-	    
-	    BigDecimal totalAmountForDay = getTotalTransactionAmountForUserWithinSameDay(userId, destinationId, date);
-	    logger.info("Total transaction amount for user within the same day: {}", totalAmountForDay);
-	    
-	    if (totalAmountForDay.add(transactionDetails.getAmount()).compareTo(new BigDecimal("200000")) > 0) {
-	        logger.info("Total transaction amount exceeds 200000");
-	        riskScore = riskScore.add(new BigDecimal("75"));
-	    }
-	    
-	    logger.info("Fraud detection completed with risk score: {}", riskScore);
-	    return riskScore;
-	}
+        logger.info("Starting fraud detection for transaction: {}", transactionDetails);
 
-	private BigDecimal calculateRiskScore(TransactionDetails transactionDetails, List<TransactionDetails> transactionList) {
-	    BigDecimal riskScore = BigDecimal.ZERO;
-	    LocalTime transactionTime = transactionDetails.getTransactionTime().toLocalTime();
-	    boolean isOddHours = isTransactionInOddHours(transactionTime);
-	    
-	    if (isOddHours) {
-	        logger.info("Transaction is within odd hours");
-	        riskScore = assessRiskForOddHours(transactionList, riskScore);
-	    } else {
-	        logger.info("Transaction is not within odd hours");
-	        riskScore = assessRiskForRegularHours(transactionList, riskScore);
-	    }
-	    
-	    if (transactionDetails.getAmount().compareTo(new BigDecimal("50000")) > 0) {
-	        logger.info("Transaction amount is greater than 50000");
-	        riskScore = riskScore.add(new BigDecimal("25"));
-	    }
-	    
-	    return riskScore;
-	}
+        Long userid = transactionDetails.getUsernId();
+        Long destinationId = transactionDetails.getDestinationUserId();
+        LocalDateTime date = transactionDetails.getTransactionTime();
 
-	private boolean isTransactionInOddHours(LocalTime transactionTime) {
-	    LocalTime startOddHours = LocalTime.of(0, 0);
-	    LocalTime endOddHours = LocalTime.of(5, 0);
-	    return transactionTime.isAfter(startOddHours) && transactionTime.isBefore(endOddHours);
-	}
+        List<TransactionDetails> transactionList = getTransactionsForUserWithinSameDay(userid, destinationId, date);
+        logger.info("Transactions for user within the same day: {}", transactionList);
 
-	private BigDecimal assessRiskForOddHours(List<TransactionDetails> transactionList, BigDecimal riskScore) {
-	    if (transactionList.isEmpty()) {
-	        logger.info("Safe Transaction");
-	    } else if (transactionList.size() == 1) {
-	        riskScore = riskScore.add(new BigDecimal("50"));
-	    } else if (transactionList.size() == 2) {
-	        riskScore = riskScore.add(new BigDecimal("100"));
-	    }
-	    return riskScore;
-	}
+        BigDecimal riskscore = BigDecimal.ZERO;
 
-	private BigDecimal assessRiskForRegularHours(List<TransactionDetails> transactionList, BigDecimal riskScore) {
-	    switch (transactionList.size()) {
-	        case 0:
-	            logger.info("Safe Transaction");
-	            break;
-	        case 2:
-	            riskScore = riskScore.add(new BigDecimal("25"));
-	            break;
-	        case 3:
-	            riskScore = riskScore.add(new BigDecimal("50"));
-	            break;
-	        case 4:
-	            riskScore = riskScore.add(new BigDecimal("75"));
-	            break;
-	        case 5:
-	            riskScore = riskScore.add(new BigDecimal("100"));
-	            break;
-	    }
-	    return riskScore;
-	}
+        LocalTime transactionTime = transactionDetails.getTransactionTime().toLocalTime();
+        LocalTime startOddHours = LocalTime.of(0, 0);
+        LocalTime endOddHours = LocalTime.of(5, 0);
 
-	private boolean isUserBlocklisted(User user) {
-	    return user.getIsBlockeListed();
-	}
-	
+        if (transactionTime.isAfter(startOddHours) && transactionTime.isBefore(endOddHours)) {
+            logger.info("Transaction is within odd hours");
+            if (transactionList.isEmpty()) {
+            	logger.info("Safe Transaction");
+                riskscore = riskscore.add(BigDecimal.ZERO);
+            } else if (transactionList.size() == 1) {
+            	logger.info(TRANSACTIONRISKCONSTANT ,riskscore);
+                riskscore = riskscore.add(new BigDecimal("50"));
+            } else if (transactionList.size() == 2) {
+                riskscore = riskscore.add(new BigDecimal("100"));
+                logger.info(TRANSACTIONRISKCONSTANT,riskscore);
+            }
+        } else {
+            logger.info("Transaction is not within odd hours");
+            if (transactionList.isEmpty()) {
+                riskscore = riskscore.add(BigDecimal.ZERO);
+                logger.info("Safe Transaction");
+            } else if (transactionList.size() == 2) {
+                riskscore = riskscore.add(new BigDecimal("25"));
+                logger.info(TRANSACTIONRISKCONSTANT ,riskscore);
+            } else if (transactionList.size() == 3) {
+                riskscore = riskscore.add(new BigDecimal("50"));
+                logger.info(TRANSACTIONRISKCONSTANT ,riskscore);
+            } else if (transactionList.size() == 4) {
+                riskscore = riskscore.add(new BigDecimal("75"));
+                logger.info(TRANSACTIONRISKCONSTANT ,riskscore);
+            } else if (transactionList.size() == 5) {
+                riskscore = riskscore.add(new BigDecimal("100"));
+                logger.info(TRANSACTIONRISKCONSTANT ,riskscore);
+            }
+        }
+
+        if (transactionDetails.getAmount().compareTo(new BigDecimal("50000")) > 0) {
+            logger.info("Transaction amount is greater than 50000");
+            riskscore = riskscore.add(new BigDecimal("25"));
+        }
+
+        User user = userService.findById(userid);
+        User destinationUser = userService.findById(destinationId);
+
+        if (user.getIsBlockeListed()) {
+            logger.info("User is blocklisted");
+            return new BigDecimal("100");
+        } else if (destinationUser.getIsBlockeListed()) {
+            logger.info("Destination user is blocklisted");
+            riskscore = riskscore.add(new BigDecimal("50"));
+        }
+
+        BigDecimal totalAmountForDay = getTotalTransactionAmountForUserWithinSameDay(userid, destinationId, date);
+        logger.info("Total transaction amount for user within the same day: {}", totalAmountForDay);
+
+        if (totalAmountForDay.add(transactionDetails.getAmount()).compareTo(new BigDecimal("200000")) > 0) {
+            logger.info("Total transaction amount exceeds 200000");
+            riskscore = riskscore.add(new BigDecimal("75"));
+        }
+
+        logger.info("Fraud detection completed with risk score: {}", riskscore);
+        return riskscore;
+    }
 
 	public BigDecimal getTotalTransactionAmountForUserWithinSameDay(Long userId,Long destinationId ,LocalDateTime date) {
 	    // Fetch all transactions for the user within the same day
