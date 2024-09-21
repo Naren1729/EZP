@@ -61,13 +61,9 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	    byte[] encryptedBytes = null;
 		try {
 			encryptedBytes = getCipher().doFinal(bytes);
-		} catch (IllegalBlockSizeException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		}
+		} 
 	    return Base64.getEncoder().encodeToString(encryptedBytes);
 	}
 
@@ -87,13 +83,9 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 		byte[] bytes = null;
 		try {
 			bytes = getCipher().doFinal(Base64.getDecoder().decode(dbData));
-		} catch (IllegalBlockSizeException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (BadPaddingException e) {
-			e.printStackTrace();
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		}
+		} 
 		 return SerializationUtils.deserialize(bytes);
 	}
 
