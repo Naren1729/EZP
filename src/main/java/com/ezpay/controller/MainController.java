@@ -181,7 +181,7 @@ public class MainController {
 	public List<User> addUsers(@RequestBody List<User> users) {
 		if (users == null || users.isEmpty()) {
 			logger.error("Invalid user list");
-			return new ArrayList<User>();
+			return new ArrayList<>();
 		}
 		List<User> addedUsers = new ArrayList<>();
 		for (User user : users) {

@@ -29,7 +29,7 @@ import com.ezpay.repository.UserRepo;
 @Service
 public class EncryptionBOService implements EncryptionInterface {
 
-    private final String encryptionKey = "KEY";
+    private static final String ENCRYPTIONKEY = "KEY";
 
     @Autowired
     public UserRepo userRepo;
@@ -64,7 +64,7 @@ public class EncryptionBOService implements EncryptionInterface {
      * @return The encrypted Long value.
      */
     public Long encryptLong(Long val) {
-        byte[] keyBytes = encryptionKey.getBytes();
+        byte[] keyBytes = ENCRYPTIONKEY.getBytes();
         long encrypted = val;
 
         for (int i = 0; i < keyBytes.length; i++) {
@@ -92,7 +92,7 @@ public class EncryptionBOService implements EncryptionInterface {
         int scale = val.scale();
 
         // Get the encryption key bytes
-        byte[] keyBytes = encryptionKey.getBytes();
+        byte[] keyBytes = ENCRYPTIONKEY.getBytes();
 
         // Encrypt the BigInteger
         BigInteger encrypted = unscaledValue;
@@ -116,7 +116,7 @@ public class EncryptionBOService implements EncryptionInterface {
 
         for (int i = 0; i < val.length(); i++) {
             char actualChar = val.charAt(i);
-            char keyChar = encryptionKey.charAt(i % encryptionKey.length());
+            char keyChar = ENCRYPTIONKEY.charAt(i % ENCRYPTIONKEY.length());
             result.append((char) (actualChar ^ keyChar));
         }
 

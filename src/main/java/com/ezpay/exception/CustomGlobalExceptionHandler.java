@@ -34,7 +34,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		CustomErrorMessage customErrorMessage = new CustomErrorMessage();
 		customErrorMessage.setError(ex.getMessage());
 		customErrorMessage.setStatus(HttpStatus.BAD_REQUEST.value());
-		return new ResponseEntity<CustomErrorMessage>(customErrorMessage, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(customErrorMessage, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(EncryptionOrDecryptionException.class)
@@ -43,7 +43,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 		CustomErrorMessage customErrorMessage = new CustomErrorMessage();
 		customErrorMessage.setError(ex.getMessage());
 		customErrorMessage.setStatus(HttpStatus.BAD_REQUEST.value());
-		return new ResponseEntity<CustomErrorMessage>(customErrorMessage, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(customErrorMessage, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)

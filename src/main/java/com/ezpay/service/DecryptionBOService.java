@@ -30,7 +30,7 @@ import com.ezpay.repository.UserRepo;
     public class DecryptionBOService implements DecryptionInterface {
 
         // Predefined encryption key used for decryption
-        private final String encryptionKey = "KEY";
+        private static final String DECRYPTIONKEY = "KEY";
 
         @Autowired
         public UserRepo userRepo;
@@ -70,7 +70,7 @@ import com.ezpay.repository.UserRepo;
          * @return The decrypted Long value.
          */
         public Long decryptLong(Long val) {
-            byte[] keyBytes = encryptionKey.getBytes();
+            byte[] keyBytes = DECRYPTIONKEY.getBytes();
             long decrypted = val;
 
             for (int i = keyBytes.length - 1; i >= 0; i--) {
@@ -98,7 +98,7 @@ import com.ezpay.repository.UserRepo;
             BigInteger encrypted = val.unscaledValue();
 
             // Get the encryption key bytes
-            byte[] keyBytes = encryptionKey.getBytes();
+            byte[] keyBytes = DECRYPTIONKEY.getBytes();
 
             // Decrypt the BigInteger
             for (int i = keyBytes.length - 1; i >= 0; i--) {
@@ -123,7 +123,7 @@ import com.ezpay.repository.UserRepo;
 
             for (int i = 0; i < decodedString.length(); i++) {
                 char actualChar = decodedString.charAt(i);
-                char keyChar = encryptionKey.charAt(i % encryptionKey.length());
+                char keyChar = DECRYPTIONKEY.charAt(i % DECRYPTIONKEY.length());
                 result.append((char) (actualChar ^ keyChar)); // XOR each character with the key character
             }
 
