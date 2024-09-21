@@ -113,14 +113,12 @@ public class UserService implements UserInterface {
         
         updates.forEach((field, value) -> {
             Field fieldToBeUpdated = ReflectionUtils.findRequiredField(User.class, field);
-            fieldToBeUpdated.setAccessible(true);
-
             Class<?> fieldType = fieldToBeUpdated.getType();
             Object valueToSet = value;
 
             // Convert value if necessary
-            if (fieldType.equals(BigDecimal.class) && value instanceof Number) {
-                valueToSet = new BigDecimal(((Number) value).toString());
+            if (fieldType.equals(BigDecimal.class) && value instanceof Number number) {
+                valueToSet = new BigDecimal(number.toString());
             }
             ReflectionUtils.setField(fieldToBeUpdated, user, valueToSet);
         });
