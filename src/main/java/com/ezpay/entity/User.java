@@ -65,7 +65,6 @@ public class User {
         this.currentBalance = currentBalance;
         this.isBlockeListed = isBlockeListed;
         this.transactionPassword = transactionPassword;
-       // this.transactions = transactions;
     }
 
     // Getters and setters for the fields
