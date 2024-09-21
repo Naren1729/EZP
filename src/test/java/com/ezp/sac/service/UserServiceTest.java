@@ -50,7 +50,7 @@ class UserServiceTest {
     @Test
     void testFindAll() {
         // Arrange: Set up test data and mock behavior
-        User user = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1", new HashSet<>());
+        User user = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1");
         List<User> users = new ArrayList<>();
         users.add(user);
 
@@ -68,7 +68,7 @@ class UserServiceTest {
     @Test
     void testFindById() {
         // Arrange: Set up test data and mock behavior
-        User user = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1", new HashSet<>());
+        User user = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1");
 
         when(userRepo.findById(1L)).thenReturn(Optional.of(user));
 
@@ -83,7 +83,7 @@ class UserServiceTest {
     @Test
     void testSaveUser() {
         // Arrange: Set up test data and mock behavior
-        User user = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1", new HashSet<>());
+        User user = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1");
 
         when(userRepo.save(user)).thenReturn(user);
 
@@ -99,7 +99,7 @@ class UserServiceTest {
     void testFindByUsername() {
         // Arrange: Set up test data and mock behavior
         String username = "user1";
-        User user = new User(1L, username, "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1", new HashSet<>());
+        User user = new User(1L, username, "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1");
 
         when(userRepo.findByUsername(username)).thenReturn(Optional.of(user));
 
@@ -117,8 +117,11 @@ class UserServiceTest {
     @Test
     void testUpdateUser() {
         // Arrange: Set up test data and mock behavior
-        User existingUser = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1", new HashSet<>());
-        User updatedUser = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("200.00"), true, "transPass2", new HashSet<>());
+        User existingUser = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("100.00"), false, "transPass1");
+        User updatedUser = new User(1L, "user1", "pass1", "user1@example.com", new BigDecimal("200.00"), true, "transPass2");
+        
+        existingUser.setTransactions(new HashSet<>()); 
+        updatedUser.setTransactions(new HashSet<>()); 
 
         when(userRepo.findById(1L)).thenReturn(Optional.of(existingUser));
         when(userRepo.save(updatedUser)).thenReturn(updatedUser);

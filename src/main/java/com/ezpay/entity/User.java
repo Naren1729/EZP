@@ -3,6 +3,7 @@ package com.ezpay.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -55,7 +56,7 @@ public class User {
     }
 
     public User(Long id, String username, String password, String email, BigDecimal currentBalance, boolean isBlockeListed,
-                String transactionPassword, Set<TransactionDetails> transactions) {
+                String transactionPassword) {
         super();
         this.id = id;
         this.username = username;
@@ -64,7 +65,7 @@ public class User {
         this.currentBalance = currentBalance;
         this.isBlockeListed = isBlockeListed;
         this.transactionPassword = transactionPassword;
-        this.transactions = transactions;
+       // this.transactions = transactions;
     }
 
     // Getters and setters for the fields
@@ -154,4 +155,9 @@ public class User {
                 transactionPassword.equals(user.transactionPassword) &&
                 transactions.equals(user.transactions);
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, email, currentBalance, isBlockeListed, transactionPassword, transactions);
+    }
+    
 }
