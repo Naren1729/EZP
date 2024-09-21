@@ -61,9 +61,9 @@ public class TransactionService implements TransactionInterface {
 	 *                                         given ID.
 	 * @throws EncryptionOrDecryptionException if decryption fails.
 	 */
-	public TransactionDetails getTransactionById(Long transaction_id) {
+	public TransactionDetails getTransactionById(Long transactionId) {
 		// Fetch transaction details by ID
-		TransactionDetails transactionDetails = transactionRepo.findById(transaction_id)
+		TransactionDetails transactionDetails = transactionRepo.findById(transactionId)
 				.orElseThrow(() -> new UserNotFoundException("Id Invalid"));
 
 		// Decrypt transaction details
