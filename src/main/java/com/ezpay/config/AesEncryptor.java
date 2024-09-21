@@ -75,8 +75,10 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	@Override
 	public Object convertToEntityAttribute(String dbData) {
-		if(dbData == null)
+		if(dbData == null) {
 			return null;
+		}
+		
 		 try {
 			initCipher(Cipher.DECRYPT_MODE);
 		} catch (GeneralSecurityException e) {
