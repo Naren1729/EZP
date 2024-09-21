@@ -4,9 +4,7 @@ import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.util.Base64;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +18,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 	@Value("${aes.encryption.key}")
 	private String encryptionKey;
 	@Value("${aes.value}")
-	private String  ENCRYPTIONCIPHER ;
+	private String  encryptionCipher ;
 	
 	private Key key;
 	private Cipher cipher;
@@ -29,7 +27,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	public Key getKey() {
 		if(key==null) {
-			key = new SecretKeySpec(encryptionKey.getBytes(), ENCRYPTIONCIPHER);
+			key = new SecretKeySpec(encryptionKey.getBytes(), encryptionCipher);
 		}
 		return key;
 	}
@@ -40,7 +38,7 @@ public class AesEncryptor implements AttributeConverter<Object, String>{
 
 	public Cipher getCipher() throws GeneralSecurityException {
 		if(cipher == null) {
-			cipher = Cipher.getInstance(ENCRYPTIONCIPHER);
+			cipher = Cipher.getInstance(encryptionCipher);
 		}
 		return cipher;
 	}

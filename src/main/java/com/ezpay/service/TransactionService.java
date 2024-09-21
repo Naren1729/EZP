@@ -48,7 +48,6 @@ public class TransactionService implements TransactionInterface {
 	@Autowired
 	private DecryptionBOService decryptionservice; // Service for decrypting data
 	
-	private static final String TRANSACTIONRISKCONSTANT="Transaction with risk : {}";
 	
 	 private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
@@ -186,6 +185,8 @@ public class TransactionService implements TransactionInterface {
 	        case 5:
 	            riskScore = riskScore.add(new BigDecimal("100"));
 	            break;
+	        default:
+	        	break;
 	    }
 	    return riskScore;
 	}
