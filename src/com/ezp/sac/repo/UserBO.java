@@ -102,7 +102,7 @@ public class UserBO {
 				return null;
 			String obtainedUsername = resultSet.getString(1);
 			if (obtainedUsername != null) {
-				connection.commit();
+				//connection.commit();
 				// Converting and passing the matched record as a class reference
 				return new User(obtainedUsername, resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4),
 						resultSet.getString(5), resultSet.getDouble(6), (resultSet.getTimestamp(7)).toLocalDateTime(),
@@ -134,7 +134,7 @@ public class UserBO {
 			preparedStatementUpdate.setString(8, updatedUser.getStatus());
 			preparedStatementUpdate.setString(9, username);
 			preparedStatementUpdate.executeUpdate();
-			//connection.commit();
+			connection.commit();
 			return;
 			// Handle case where user does not exist, e.g., throw an exception or log an
 			// error
@@ -151,7 +151,7 @@ public class UserBO {
 				ResultSet resultSet = preparedStatementSelectAll.executeQuery())
 		{
 		
-		connection.commit();
+		//connection.commit();
 		// Get metadata to dynamically handle column names and count
 		ResultSetMetaData metaData = resultSet.getMetaData();
 		int columnCount = metaData.getColumnCount();
