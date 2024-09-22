@@ -76,7 +76,7 @@ public class UserBO {
 
 		        // No need to delete records, as the table is already created
 
-		        connection.commit(); // Committing changes made
+		        //connection.commit(); // Committing changes made
 		        initialized = true;
 		    }
 		} catch (SQLException e) {
