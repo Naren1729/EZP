@@ -33,6 +33,8 @@ public class DecryptionBOServiceTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		decryptionServiceTestObject = null;
+		encryptionServiceTestObject1 = null;
+		
 	}
 
 	@Before
