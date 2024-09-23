@@ -1,3 +1,14 @@
+/**
+ *  * @author: Naren
+ * UserRepo is a repository interface for managing {@link User} entities.
+ * 
+ * It extends JpaRepository to provide standard CRUD operations and query methods for handling
+ * transaction details.
+ * 
+ * The repository is annotated with @Repository to indicate it is a Spring Data repository.
+ */
+
+
 package com.ezpay.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
